@@ -1,0 +1,23 @@
+
+
+<div class="page-title"><h2>會員資料</h2></div>
+<form  [formGroup]="cusForm">
+    <table class="table table-bordered col-12 col-md-4" style="margin:auto">
+        <tr>
+            <th class="table-sky">email</th>
+            <td>
+                <input type="text" formControlName="email"  class="form-control" readonly>
+            </td>
+        </tr>
+        <tr>
+            <th class="table-sky">帳號名稱</th>
+            <td>
+                <input type="text" formControlName="displayName" class="form-control">
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="10" align="center"><button class="btn btn-light" (click)="update()" style="width:300px">確認修改</button></td>
+        </tr>
+    </table>
+</form>

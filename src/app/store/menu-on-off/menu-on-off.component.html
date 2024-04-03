@@ -1,0 +1,56 @@
+<div class="page-title"><h2>{{title}}</h2></div>
+<div class="page-title">
+    <select [(ngModel)]="category" (change)="getCategoryList()" class="form-control" style="width: 150px;display: inline-block;">
+        <option value="">選擇類別</option>
+        <option *ngFor="let item of category_list" [value]="item.id">{{ item.category }}</option>
+    </select>
+</div>
+
+
+<table class="table table-bordered table-hover during-set-table" style="margin-top:15px;">
+    <tr>
+        <th class="during-bg">菜單項目開關</th>
+    </tr>
+    <tr *ngFor="let item of list"><!--原始定義-->
+        <td>
+            <div>
+               
+                <!--圖片-->
+                <img class="item-img" [src]="item.img_full_url" [alt]="item.name" [title]="item.name">
+              
+            
+                <!--資料顯示-->
+                <span>
+                    <!--商品名稱-->
+                    <span class="during-item" style="width:200px">{{ item.name }}</span>，
+                    <!--沒設定價格類別-->
+                    <span [hidden]="item.price_list!=null && item.price_list.length > 0">
+                        {{item.price}}
+                        <span> 元 </span>
+                    </span>
+
+                    <!--有設定價格類別-->
+                    <span [hidden]="item.price_list!=null && item.price_list.length==0">
+                        <span *ngFor="let price of item.price_list">
+                            <span class="badge badge-warning price-name" >{{price.price_name}}</span>
+                            <span>{{ price.price }}</span>
+                            <span> 元 </span>
+                        </span>
+                    </span>
+                   
+                </span>
+                <!--開關-->
+                <span style="float:right">
+                    <p-inputSwitch [(ngModel)]="item.on" title="顯示在菜單上"></p-inputSwitch>
+                </span>
+
+
+            </div>       
+        </td>
+    </tr> 
+    <tr>
+        <td colspan="10" align="center">
+            <button class="btn btn-primary" (click)="goUpdate()">確定修改</button>
+        </td>
+    </tr>
+</table>

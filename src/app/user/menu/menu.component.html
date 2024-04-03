@@ -1,0 +1,266 @@
+
+
+
+<div class="page-title">
+    <i class="fas fa-heart favorite-icon" title="加入最愛商店" [ngClass]="(dataObj.is_favorite)?['love']:null" (click)="favorite()" [hidden]="uid==null || uid=='' "></i>
+    <h2><a routerLink="/user/store-show/{{cInfo.id}}">{{ cInfo.store_name }} </a></h2>
+    <h2 style="margin-left:15px">{{title}}</h2>
+    <app-team-info [params]="params" [cInfo]="cInfo" [userInfo]="userInfo" [is_off_day]="is_off_day" (voted)="onGetTeamInfo($event)"></app-team-info>
+</div>
+
+ 
+<div class="loading-icon" [hidden]="category_list.length>0">
+    <i class="fa-4x fas fa-spinner fa-pulse"></i>
+    <div style="margin-top: 10px;">資料讀取中.....</div>
+</div>
+
+<h1 [hidden]="!is_off_day" class="off-day-title">今日休假</h1>
+
+<!--公告 menu-board-->
+<div class="alert alert-success" role="alert" [innerHTML]=" menuboardInfo.info | nl2br" [hidden]="!menuboardInfo.on">
+</div>
+
+<!--菜單-->
+<table class="table table-bordered col-12" [hidden]="category_list.length==0" style="margin:auto">
+    <tr *ngFor="let item of category_list"  class="tr-product" [hidden]="show3==true">
+        <td>
+          
+            <div [ngClass]="item.gclass" (click)="item.is_hide=!item.is_hide">
+                <div style="cursor: pointer;">
+                    <i [hidden]="!item.is_hide" class="fas fa-plus-square" (click)="$event.stopPropagation(); item.is_hide=false"></i>
+                    <i [hidden]="item.is_hide" class="fas fa-minus-square" (click)="$event.stopPropagation(); item.is_hide=true"></i>
+                    &nbsp;<span>{{ item.category }} </span>    
+                </div>
+            </div>
+            <div [hidden]="item.is_hide" class="row" style="padding: 10px ;">
+                    <div *ngFor="let xitem of item.list; let index = index" [hidden]="xitem.is_hide" class="col-xl-4 col-lg-6 col-md-6 col-xs-12" style="padding: 5px;">
+                        <div style="border: 1px solid #ccc; display: table;">
+                            <img [src]="xitem.img_full_url" [alt]="xitem.name"  class="item-img animated zoomIn" (click)="openImageModal(xitem)" [hidden]="xitem.img_full_url==null ">
+                            <span class="item-img-default" [hidden]="xitem.img_full_url!=null "></span>
+                            <span class="item-text">
+                                <span>{{ xitem.name }}</span>
+                                
+                                <span class="item-price" [hidden]="xitem.price_list!=null && xitem.price_list.length > 0">
+                                    <span class="badge badge-danger">NT.{{ xitem.price }}元</span>
+                                </span>
+                                <span class="item-price"  [hidden]="xitem.price_list!=null && xitem.price_list.length == 0">
+                                    <span class="item-price-multiple" *ngFor="let price of xitem.price_list" >
+                                        <div class="form-check">
+                                            <input type="radio" [(ngModel)]="xitem.price_obj" class="form-check-input" [value]="price"
+                                            [name]="xitem.name" [id]=" 'price-'+ item.id + '-'+ price.price_id+ '-' +index ">
+                                            <label class="form-check-label" [attr.for]=" 'price-'+ item.id + '-'+ price.price_id+ '-' +index  ">
+                                                <span class="badge badge-warning">{{ price.price_name }}</span>
+                                                <span class="badge badge-danger">{{ price.price }}元</span>
+                                            </label>
+                                        </div>
+                                      
+                                    </span>
+                                </span>
+                                
+                                <span class="item-tool" style="top:15px">
+                                    <button class="btn btn-sm btn-dark btn-left btn-tool" (click)="changeQuantity('-', xitem)"><i class="fas fa-minus"></i></button>
+                                    <input type="number" [(ngModel)]="xitem.quantity" class="form-control tool-input">
+                                    <button class="btn btn-sm btn-dark btn-right btn-tool" (click)="changeQuantity('+', xitem)"><i class="fas fa-plus"></i></button>
+                                </span>
+                                <span class="item-tool">
+                                    <button class="btn btn-sm btn-success btn-order" [disabled]="is_off_day" (click)="addToCart(xitem)">訂購</button>
+                                </span>
+                            </span>
+                           
+                        </div>
+                    </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+
+
+<!--提示訊息 -- 成功加入購物車  -->
+<p-toast position="top-right"  baseZIndex="2000"></p-toast>
+
+
+
+<!--購物車圖示-->
+<div class="cart" *ngIf="!is_off_day">
+    <!--========================== 團購 ==============================-->
+   <span *ngIf="params.team_order_id!=null && teamOrderInfo.id!='' " >
+        <!--[灰色] 連結團購 -- 點擊可以連結另個頁面查看目前團購的所有訂單狀況 -->   <!--routerLink="/user/team-order-list/{{params.id}}/{{ params.team_order_id }}"-->
+        <a href="/user/team-order-list/{{params.id}}/{{ params.team_order_id }}">
+            <i class="fas fa-file-alt cart-link team-file" title="查看訂單"></i>
+        </a>
+
+        <span *ngIf="teamOrderInfo.is_check!=1 ">
+            <!--[綠色] 購物車圖示 -- 點擊可以顯示使用者目前在這團購的購物資訊 -->
+            <span title="查看我的訂購項目" (click)="openCartModal()" >
+                <span class="cart-num cart-num-member" [hidden]="getCartNum()===0">{{ getCartNum() }}</span>
+                <i class="fas fa-cart-plus cart-tool team-member" title="查看我的訂購項目"></i>
+            </span>
+
+            <!--[藍色](結單) 購物車圖示 -- 點擊可以將目前團購單送到店家 -->
+            <app-team-btntool 
+            [params]="params" [userInfo]="userInfo" [teamOrderInfo]="teamOrderInfo" [socketObj]="socketObj"
+            [cart_list]="cart_list" [cInfo]="cInfo" (onVoted)="checkOrder($event)"></app-team-btntool>
+        </span>
+    </span>
+
+
+    <!--======================  一般購物  ==============================-->
+    <!--[紅色] 購物車圖示 -- 點擊可以顯示目前購物資訊 -->
+    <span *ngIf="params.team_order_id==null" (click)="openCartModal()" title="查看目前訂購項目" >
+        <span class="cart-num cart-num-store" [hidden]="getCartNum()===0">{{ getCartNum() }}</span>
+        <i class="fas fa-shopping-cart cart-tool store-order"></i>
+    </span>
+</div>
+
+  
+<!-- Modal --顯示目前購物車資訊 -->
+<div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document"><!--modal-dialog-centered-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">訂單</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div [hidden]="cart_list.length!=0" title="目前購物車內尚未有商品">
+                    <h4>您目前尚未有選購商品。</h4>
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <table class="table table-bordered cart-table table-striped" [hidden]="cart_list.length==0">
+                    <thead>
+                        <tr class="table-info">
+                            <th>圖片</th>
+                            <th>品名</th>
+                            <th>價格</th>
+                            <th>數量</th>
+                            <th>小計</th>
+                            <th style="max-width: 60px;">移除</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of cart_list">
+                            <td> <img [src]="item.img_full_url" alt="" class="item-img-helf"> </td>
+                            <td>
+                                {{ item.name }}
+                                <span *ngIf=" item.price_obj!=null ">
+                                    <span class="badge badge-warning">{{ item.price_obj.price_name }}</span>
+                                </span>
+                                <div>
+                                    <input type="text" [(ngModel)]="item.remark" class="form-control remark" placeholder="商品備註(限20字)" maxlength="20">
+                                </div>
+                            </td>
+                            <td>
+                                <span *ngIf=" item.price_obj==null ">{{ item.price }}</span>
+                                <span *ngIf=" item.price_obj!=null ">{{ item.price_obj.price }}</span>
+                            </td>
+                            <td>{{ item.quantity }}</td>
+                            <td>
+                                <span *ngIf=" item.price_obj==null "> {{ item.quantity * item.price }} </span>
+                                <span *ngIf=" item.price_obj!=null "> {{ item.quantity * item.price_obj.price }}</span>
+                                
+                            </td>
+                            <td>
+                                <i class="fas fa-trash-alt" (click)="removeCart(item)" title="刪除" style="font-size: 1.1em;cursor: pointer;"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="10" style="text-align: right;">總計: NT.{{ getTotalPrice() }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <!--一般訂購-->
+                <div [hidden]="cart_list.length==0 || params.team_order_id!=null ">
+                    <div style="text-align: left;">
+                        <div>
+                            <span>連絡電話: </span>
+                            09 <p-inputMask [(ngModel)]="phone" mask="99-999999" placeholder="99-999999"></p-inputMask>
+                        </div>
+                        <div>
+                            <p-calendar [(ngModel)]="pay_day" dateFormat="yy/mm/dd" 
+                            [showTime]="true" [locale]="locale"  placeholder="付款時間" title="請選擇付款時間"></p-calendar>
+                            <p-inputMask [(ngModel)]="pay_number" mask="9999" placeholder="帳號末4碼" title="請填入付款帳號末4碼"></p-inputMask>
+                        </div>
+                        <div style="color:blue">[付款時間] 與 [末4碼] 下單後再填，<br/>是讓商店確認的付款資訊 </div>
+                    </div>
+                  
+                    <textarea [(ngModel)]="desc" class="form-control" placeholder="訂單備註(限200字)" maxlength="200" style="width: 100%;height: 70px;"></textarea>
+                </div>
+                <!--團購訂購-->
+                <div [hidden]="cart_list.length==0 || params.team_order_id==null ">
+                    <input type="text" [(ngModel)]="member.name" class="form-control" placeholder="訂購人" title="請輸入訂購人姓名" style="width:110px">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal">關閉</button>
+                <button type="button" class="btn btn-warning" *ngIf="params.team_order_id!=null" (click)="goCheckTeamOrderDetail()" [disabled]="cart_list.length==0" >確認訂購</button>
+                <button type="button" class="btn btn-primary" *ngIf="params.team_order_id==null" (click)="goCheckOrder()" [disabled]="cart_list.length==0" >訂購</button>
+                <!--*ngIf="params.team_order_id==null && teamOrderInfo.id!=''" -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -- 顯示圖片大張 -->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog img-dialog" role="document"><!--modal-dialog-centered-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalTitle">{{ imageItem.name }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img [src]="imageItem.img_full_url" [alt]="imageItem.name" style="width:100%">
+            </div>
+    </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <!-- *ngIf="params.team_order_id!=null && teamOrderInfo.id!='' " vs [hidden]="params.team_order_id==null || teamOrderInfo.id=='' "-->
+  <!--*ngIf="params.team_order_id==null" vs [hidden]="params.team_order_id!=null "-->
+<!--提示訊息 -- 成功加入購物車  -->
+<!--
+    <p-toast position="top-right" key="c"  [baseZIndex]="2000"> 
+    <ng-template let-message pTemplate="message">
+        <div style="text-align: center">
+            <h4>加入成功 !! </h4>
+            <table class="table table-bordered">
+                <tr>
+                    <td style="width:50px">
+                        <img [src]="addCartInfo.img_full_url" alt="" class="item-img-helf"> 
+                    </td>
+                    <td>{{ addCartInfo.name }}</td>
+                    <td>{{ addCartInfo.price }}</td>
+                    <td>{{ addCartInfo.quantity }}</td>
+                    <td>{{ addCartInfo.quantity * addCartInfo.price }}</td>
+                </tr>
+            </table>
+        </div>
+    </ng-template>
+</p-toast>
+-->
+<!-- (onClose)="onReject()"  [modal]="true" -->

@@ -1,0 +1,180 @@
+
+    
+<div [hidden]="!is_check" class="alert alert-danger col-md-7 col-sm-12 col-xs-12" role="alert" style="margin:auto;margin-bottom:20px">
+    <h3 style="text-align: center">
+        <i class="fas fa-exclamation-circle"></i>
+        此團購已結單
+    </h3>
+</div>
+
+<!----訂購負責人----->
+<div class="col-xl-9 col-lg-10 col-md-11 col-sm-12 col-xs-12 center m-table" style="margin:auto;padding:0">
+    <div class="order-title">
+        <h3>{{titleInfo.store_name}} -- 
+            <a routerLink="/user/menu/{{params.id}}/{{ params.team_order_id }}">{{titleInfo.title}}</a>
+        </h3>
+    </div>
+    <div class="order-title">{{ 'MEMBER_LIST.ORDERER' | translate }}: <span class="badge badge-primary">{{titleInfo.order_name}}</span></div>
+    <div class="order-title">{{ 'MEMBER_LIST.END_TIME' | translate }}: <span class="badge badge-danger">{{titleInfo.end  }}</span></div><!--| noSecond-->
+    <div class="order-title time-title">{{titleInfo.created}}</div>
+</div>
+<div class="col-xl-9 col-lg-10 col-md-11 col-sm-12 col-xs-12 alert alert-primary m-table alert-info" role="alert" style="margin:auto;margin-top:5px;padding:5px">
+    <i class="fas fa-info-circle"></i> &nbsp; <div [innerHTML]="titleInfo.remark | nl2br"></div>
+</div>
+<table class="table table-bordered col-xl-9 col-lg-10 col-md-11 col-sm-12 col-xs-12 m-table" style="margin:auto;margin-bottom: 150px;">
+    <tr>
+        <td>
+            <button class="btn btn-sm radius" [ngClass]="(show1===1)?['btn-primary']:['btn-outline-primary']" (click)="hideAll(false)" style="float:left;margin-right:3px">
+                {{ 'TOTAL_LIST.DETAIL' | translate }}
+            </button>
+            <button class="btn btn-sm radius" [ngClass]="(show1===0)?['btn-primary']:['btn-outline-primary']" (click)="hideAll(true)" style="float:left;margin-right:3px">
+                {{ 'TOTAL_LIST.MAIN' | translate }}
+            </button>
+            <button class="btn btn-sm radius" [ngClass]="(show3===true)?['btn-warning']:['btn-outline-warning']" (click)="show3=!show3" style="float:left;margin-right:3px">
+                {{ 'MEMBER_LIST.ORDERER' | translate }}
+            </button>
+      
+            <button class="btn btn-sm btn-outline-danger radius" [ngClass]="(pay===true)?['fill2']:null"  (click)="showPay()" style="float:left;margin-right:3px">
+                {{ 'TOTAL_LIST.PAID' | translate }}
+            </button>
+            <button class="btn btn-sm btn-outline-danger radius" [ngClass]="(unpay===true)?['fill2']:null" (click)="showUnPay()" style="float:left">
+                {{ 'TOTAL_LIST.UNPAID' | translate }}
+            </button>
+
+           <div [ngClass]="(charge==true)?['btn-right']:null">
+                <button *ngIf="charge" class="btn btn-sm btn-dark " (click)="goCheckOrder()" [disabled]="is_check==1" style="float:right;margin-left:3px">
+                    {{ 'MEMBER_LIST.CHECK' | translate }}
+                </button>
+                <button class="btn btn-sm btn-light" (click)="showMember()" style="float:right">
+                    {{ 'TOTAL_LIST.ORDER' | translate }}
+                </button>
+           </div>
+           
+        </td>
+    </tr>
+    <tr>
+        <td> {{ 'TOTAL_LIST.TOTAL_AMOUNT' | translate }}: <span class="badge badge-success" style="top: -1px;position: relative;">{{total_price}}</span></td>
+    </tr>
+
+    <!--- =================================================  依照商品排列 ====================================================-->
+    <tr *ngFor="let item of sort_order_list"  class="tr-product" [hidden]="show3==true">
+        <td>
+          
+            <div class="row" [ngClass]="item.gclass" (click)="item.is_hide=!item.is_hide">
+                <div class="col-md-7 col-4">
+                    <i [hidden]="!item.is_hide" class="fas fa-plus-square"></i><!--(click)="item.is_hide=false"-->
+                    <i [hidden]="item.is_hide" class="fas fa-minus-square"></i><!--(click)="item.is_hide=true"-->
+                    &nbsp;<span>{{ item.name }} </span>
+                    <span [hidden]="item.price_obj==null">({{ item.price_obj.price_name }})</span>    
+                </div>
+                <div class="col-md-5 col-8">
+                    <div class="m-item"> 
+                        {{ 'MEMBER_LIST.PRODUCT_SUBTOTAL' | translate }} &nbsp; 
+                        <span [hidden]="item.price_obj!=null">{{ item.price*item.quantity }}</span>
+                        <span [hidden]="item.price_obj==null">{{ item.price_obj.price*item.quantity }}</span>
+                        {{ 'TOTAL_LIST.MONEY_AFTER' | translate }}
+                        <i class="fab fa-envira" title="排序" (click)="changeColorAndSort(item, $event)" style="cursor: pointer;"></i>
+                    </div>
+                    <div class="m-item"><span class="badge" [ngClass]="item.gclass2">{{ item.quantity }} {{ 'TOTAL_LIST.UNIT_AFTER' | translate }}</span></div>
+                    <div class="m-item">
+                        {{ 'TOTAL_LIST.UNIT_PRICE' | translate }} &nbsp;
+                        <span [hidden]="item.price_obj!=null">{{ item.price }}</span>
+                        <span [hidden]="item.price_obj==null">{{ item.price_obj.price}}</span>
+                         {{ 'TOTAL_LIST.MONEY_AFTER' | translate }}
+                    </div>
+                   
+                </div>
+            </div>
+            <div [hidden]="item.is_hide" style="padding: 2px">
+                <table class="table table-bordered gTable showTable">
+                    <tr style="background: #cccccc">
+                        <th *ngIf="charge" class="pay">{{ 'TOTAL_LIST.STATUS' | translate }}</th>
+                        <th class="is-pay">{{ 'TOTAL_LIST.ISPAY' | translate }}</th>
+                        <th class="des-ordername">{{ 'TOTAL_LIST.NAME' | translate }}</th>
+                        <th class="des-price">{{ 'TOTAL_LIST.UNIT_PRICE' | translate }}</th>
+                        <th class="des-quantity">{{ 'TOTAL_LIST.QUANTITY' | translate }}</th>
+                        <th class="des-remark">{{ 'REMARK' | translate }}</th>
+                    </tr>
+                    <tr *ngFor="let xitem of item.list" [hidden]="xitem.is_hide" class="tr-description">
+                        <td *ngIf="charge">
+                            <input type="checkbox" [(ngModel)]="xitem.is_pay" (change)="goPay('product',xitem)">
+                            <span (click)="goPay2('product',xitem)" style="cursor: pointer;margin-left: 3px;">{{ 'TOTAL_LIST.ISPAY' | translate }}</span>
+                        </td>
+                        <td>
+                            <i class="fas fa-check-circle" [title]="'TOTAL_LIST.UNPAID' | translate" [hidden]="xitem.is_pay" style="color:#ccc"></i>
+                            <i class="fas fa-check-circle" [title]="'TOTAL_LIST.PAID' | translate" [hidden]="!xitem.is_pay" style="color:#39d239"></i>
+                        </td>
+                        <td>{{ xitem.order_name }}</td>
+                        <td>
+                            <span [hidden]="xitem.price_obj!=null">{{ xitem.price }}</span>
+                            <span [hidden]="xitem.price_obj==null">{{ xitem.price_obj.price }}</span>
+                        </td>
+                        <td>{{ xitem.quantity }}</td>
+                        <td>{{ xitem.remark }}</td>
+                    </tr>
+                </table>
+            </div><!--style="padding: 10px"-->
+        </td>
+    </tr>
+     <!--- =================================================  依照姓名排列 ====================================================-->
+     <tr *ngFor="let item of sort_order_list_name"  class="tr-product" [hidden]="show3==false">
+        <td>
+          
+            <div class="row product" (click)="item.is_hide=!item.is_hide">
+                <div class="col-md-7 col-4">
+                    <i [hidden]="!item.is_hide" class="fas fa-plus-square"></i><!--(click)="item.is_hide=false"-->
+                    <i [hidden]="item.is_hide" class="fas fa-minus-square"></i><!--(click)="item.is_hide=true"-->
+                    &nbsp;
+                    <i class="fas fa-check-circle" [title]="'TOTAL_LIST.UNALLPAID' | translate" [hidden]="item.paid" style="color:#ccc"></i>
+                    <i class="fas fa-check-circle" [title]="'TOTAL_LIST.ALLPAID' | translate" [hidden]="!item.paid" style="color:#39d239"></i>
+                    &nbsp;<span>{{ item.order_name }} </span>    
+                </div>
+                <div class="col-md-5 col-8">
+                    <div class="m-item"> 總共 &nbsp; 
+                        {{ item.sub_total_price }} 
+                        {{ 'TOTAL_LIST.MONEY_AFTER' | translate }}</div>
+                   
+                </div>
+            </div>
+            <div [hidden]="item.is_hide" style="padding: 2px">
+                <table class="table table-bordered gTable showTable">
+                    <tr style="background: #cccccc">
+                        <th *ngIf="charge" class="pay">{{ 'TOTAL_LIST.STATUS' | translate }}</th>
+                        <th class="is-pay">{{ 'TOTAL_LIST.ISPAY' | translate }}</th>
+                        <th class="des-name">商品</th>
+                        <th class="des-price">{{ 'TOTAL_LIST.UNIT_PRICE' | translate }}</th>
+                        <th class="des-quantity">{{ 'TOTAL_LIST.QUANTITY' | translate }}</th>
+                        <th class="des-remark">{{ 'REMARK' | translate }}</th>
+                    </tr>
+                    <tr *ngFor="let xitem of item.list" [hidden]="xitem.is_hide" class="tr-description">
+                        <td *ngIf="charge">
+                            <input type="checkbox" [(ngModel)]="xitem.is_pay" (change)="goPay('name',xitem)">
+                            <span (click)="goPay2('name',xitem)" style="cursor: pointer;margin-left: 3px">{{ 'TOTAL_LIST.ISPAY' | translate }}</span>
+                        </td>
+                        <td>
+                            <i class="fas fa-check-circle" [title]="'TOTAL_LIST.UNPAID' | translate" [hidden]="xitem.is_pay" style="color:#ccc"></i>
+                            <i class="fas fa-check-circle" [title]="'TOTAL_LIST.PAID' | translate" [hidden]="!xitem.is_pay" style="color:#39d239"></i>
+                        </td>
+                        <td>
+                            {{ xitem.name }}
+                            <span [hidden]="xitem.price_obj==null">({{ xitem.price_obj.price_name }})</span>
+                        </td>
+                        <td>
+                            <span [hidden]="xitem.price_obj!=null">{{ xitem.price }}</span>
+                            <span [hidden]="xitem.price_obj==null">{{ xitem.price_obj.price }}</span>
+                        </td>
+                        <td>{{ xitem.quantity }}</td>
+                        <td>{{ xitem.remark }}</td>
+                    </tr>
+                </table>
+            </div><!--style="padding: 10px"-->
+        </td>
+    </tr>
+
+
+
+</table>
+
+
+
+      

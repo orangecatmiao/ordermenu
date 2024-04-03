@@ -1,0 +1,100 @@
+
+
+<div *ngIf="teamOrderInfo.is_check==1 ">
+    <div class="alert alert-danger" role="alert" >
+        <strong>
+          <i class="fas fa-exclamation-triangle"></i>
+          <h2>此團購已結單無法訂購</h2>
+        </strong>
+      </div>
+</div>
+
+
+<button [hidden]="params.team_order_id!=null" [disabled]="is_off_day" class="btn btn-warning create-order" (click)="openTeamorderModal()">我要開團</button>
+<span [hidden]="params.team_order_id==null">
+    <button class="btn btn-dark create-order"><a href="/user/menu/{{ cInfo.id }}" style="color:#fff">回原菜單</a></button>
+    
+    <div class="row team-order-info-row" [hidden]="teamOrderInfo.id=='' " style="text-align: left;">
+        <div class="col-md-12">
+            <span class="badge badge-secondary" > 團購主題 </span>
+            <span class="b-info">{{ teamOrderInfo.title }}</span>
+        </div>
+        <div class="col-md-12">
+            <span class="badge badge-secondary" > 負責人 </span>
+            <span class="b-info">{{ teamOrderInfo.order_name }}</span>
+        </div>
+        <div class="col-md-12">
+            <span class="badge badge-secondary" > 截止時間 </span>
+            <span class="b-info">{{ teamOrderInfo.end }}</span>
+        </div>
+        <div class="col-md-12"> 
+            <span class="badge badge-secondary" > 備註 </span>
+            <span class="b-info">{{ teamOrderInfo.remark }}</span>
+        </div>
+    </div>
+    <div [hidden]="teamOrderInfo.id!='' ">
+        <h2>抱歉，訂單不存在!</h2>
+    </div>
+</span>
+
+
+<!-- Modal -- 顯示團購網址 -->
+<div class="modal fade" id="teamorderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="teamorderModalTitle">我要開團訂購</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered create-team-order-table">
+                    <tr>
+                        <th class="table-info">團購商店</th>
+                        <td>{{ cInfo.store_name }}</td>
+                    </tr>
+                    <tr>
+                        <th class="table-info">負責人</th>
+                        <td>{{ userInfo.displayName }}</td>
+                    </tr>
+                    <tr>
+                        <th class="table-info">團購主題</th>
+                        <td> <input type="text" class="form-control" [(ngModel)]="teamOrderObj.title" placeholder="請輸入主題" title="請輸入主題"></td>
+                    </tr>
+                    <tr>
+                        <th class="table-info">截止時間</th>
+                        <td>
+                            <p-calendar [(ngModel)]="teamOrderObj.end" dateFormat="yy/mm/dd" 
+                            [showTime]="true" [locale]="locale"  placeholder="請選擇截止時間"
+                            title="請選擇截止時間"></p-calendar>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-info">備註</th>
+                        <td>
+                            <textarea type="text" class="form-control" [(ngModel)]="teamOrderObj.remark" 
+                            placeholder="請輸入備註" title="請輸入備註" style="height:55px"></textarea>
+                        </td>
+                    </tr>
+                </table> 
+                <!--顯示團購 QR code -->
+                <table class="table table-bordered" [hidden]="teamOrderObj.qrcode_url=='' ">
+                    <tr>
+                        <td>
+                            <div>團購網址</div>
+                            <div><a [href]=" teamOrderObj.qrcode_url " target="_blank" style="word-break: break-word;">{{ teamOrderObj.qrcode_url }}</a></div>
+                            <div style="width:100%;text-align: center;margin: 10px 0 0 0;">
+                                <div id="team-qrcode" style="display: inline-block"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal">關閉</button>
+                <button type="button" class="btn btn-primary" (click)="goCreateTeamOrder()">確認開團</button>
+            </div>
+    </div>
+    </div>
+</div>

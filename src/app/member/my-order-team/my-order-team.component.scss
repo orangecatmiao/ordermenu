@@ -1,0 +1,102 @@
+.badge-pay{
+    color: #fff;
+    background-color: #7805c0;
+}
+.page-tool{
+    margin: 0 15px;
+}
+
+.title-th{
+    width:110px;
+}
+
+.fas{
+    position: relative;
+    color:red;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.fa-sort-up{
+   top: 4px;
+}
+
+.fa-sort-down{
+    top: -4px;
+}
+
+.select-div{
+    text-align: center;
+    margin: 8px;
+}
+
+
+.search-select{
+    display: inline-block;
+    width: 100px;
+    margin-right: 3px;
+}
+
+.choosed-item{
+    background-color:#bbc1ff ;
+}
+
+
+.screen-computer{
+    display: table;
+}
+
+.screen-mobile{
+    display: none;
+}   
+
+::ng-deep .calendar-input input{
+    width:100px;
+}
+
+
+.th-title{ width:35% }
+.th-remark{ width:65%} 
+.th-status{ min-width: 70px;} 
+.th-created{ min-width: 175px; } 
+.th-info{ min-width: 55px;}
+.order-info-table th{ width:130px; }
+.btn-page{ margin-left: 5px;}
+
+@media screen  and (max-width:1000px){
+ 
+    .screen-computer{
+        display: none;
+    }
+    .screen-mobile{
+        display: table;
+    }
+    
+    .search-select{
+        display: inline-block;
+        width: 80px;
+        margin-right: 3px;
+    }
+    ::ng-deep .calendar-input input{
+        width:90px;
+    }
+}
+
+@media screen  and (max-width:321px){
+    .btn-search{
+        margin-top: 5px;
+    }
+}
+
+.order-list{
+    height:71.5vh;
+    overflow: auto;
+    /*border:1px solid red;*/
+}
+
+.table-detail-title{
+    background: #2cc68d;
+    color: #fff;
+    text-align: center;
+    font-weight: 900;
+}

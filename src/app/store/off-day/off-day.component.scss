@@ -1,0 +1,62 @@
+
+::ng-deep .p-tabview-nav{
+    justify-content: center;
+}
+.week-title{
+    width:110px;
+}
+
+.week-table{
+    max-width: 300px;
+    margin:auto;
+}
+
+.week-turn{
+    padding: 4px;
+    top: -8px;
+    position: relative;
+    font-weight: 900px;
+}
+
+.off-text{
+    color: red;;
+}
+
+.on-text{
+    color: green;;
+}
+
+
+
+
+
+
+/*======================== 選擇日期 ===============================*/
+::ng-deep .calendar-input input{
+    width:100px;
+}
+
+.during-set-table{
+    margin-top:15px;
+    max-width: 300px;
+    margin: auto;
+}
+
+.fas{ 
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.fa-window-close{color:red;}
+
+.btn-tool .btn{
+    width: 100px;
+}
+
+@media screen  and (max-width:1000px){
+    ::ng-deep .calendar-input input{
+        width:90px;
+    }
+}
+
+

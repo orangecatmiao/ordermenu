@@ -1,0 +1,70 @@
+
+<p-dialog [(visible)]="display" closeIcon="false" [draggable]="false" [position]="'bottom'" class="privacy"
+[style]="{width: '100%'}"> <!--closeOnEscape="false" modal="true" -->
+    <p-header>
+        請同意以下才能繼續使用本網站     <button class="btn btn-primary" (click)="agreePrivacy()">同意</button>
+    </p-header>
+    <div style="padding:0 20px 0 0">
+        <ol>
+            <li>這個網站會使用 cookies 與 sessionStorage, localStorage 來紀錄您在這個網站的各種資訊。</li>
+            <li>這個網站會使用 Google 的 Cookie 來協助提供服務及分析流量。
+                此外，這個網站會將您的 IP 位址、使用者代理程式、效能和安全性指標一併提供給 Google，
+                以確保服務品質、產生使用統計資料，以及偵測並處理濫用情形。
+            </li>
+        </ol>
+    </div>
+ <!--
+    <p-footer>
+       <button class="btn btn-primary" (click)="agreePrivacy()">同意</button>
+    </p-footer>
+ -->
+</p-dialog>
+
+
+
+<div class="footer screen-computer">
+    <i class="fas fa-bullhorn"></i><a href="https://www.youtube.com/watch?v=9EsQVd_NWsc" target="_blank">使用說明</a><span class="sep-col">|</span> 
+    <i class="fas fa-burn"></i>2020 森林貓&copy;版權所有 <span class="sep-col">|</span> 
+    <i class="fas fa-envelope"></i> 聯絡森林貓 services@teamorder.magichamster.acsite.org 
+    <div *ngTemplateOutlet="version"></div>
+</div>
+
+<div class="footer screen-mobile">
+    <div><!--href="javascript:void(0)"routerLink="/user/about-website"-->
+        <i class="fas fa-bullhorn"></i>
+        <a href="https://www.youtube.com/watch?v=9EsQVd_NWsc" target="_blank">使用說明</a>
+   </div>
+    <div>
+        <i class="fas fa-burn"></i>2020 森林貓&copy;版權所有
+    </div>
+    <div>
+        <i class="fas fa-envelope"></i> 聯絡森林貓 services@teamorder.magichamster.acsite.org  
+        <div *ngTemplateOutlet="version"></div>
+    </div>
+</div>
+
+
+
+ <!--===================  登入 Modal  ========================================-->
+ <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">登入</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <app-login [isOuter]="true"></app-login>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ <!--===================  version 模板  ========================================-->
+ <ng-template #version>
+    <span style="color:red">v12.0.3</span>
+</ng-template>
+

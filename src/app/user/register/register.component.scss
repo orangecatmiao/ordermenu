@@ -1,0 +1,122 @@
+.login-input{
+    width:300px;
+    display: inline-block;
+    margin-left: 5px;
+}
+.login-checked{
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+
+.agree-label{
+    position: relative;
+    top:-4px;
+    margin-left:8px;
+}
+.form-group{
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+}
+label{
+    cursor: pointer;
+}
+.login-td{
+    padding: 50px 10px;
+    border:3px dashed #06dd5c; /*#9f6eff*/
+    box-shadow: 8px 8px 8px #c6c6c6;
+}
+.privacy{
+    margin: 10px;
+    padding: 10px;
+    height: 150px;
+    overflow: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f3fff0;
+}
+.privacy li{
+    margin: 0px 0px 15px 0px;
+}
+
+.captcha-info{
+    color:#0095ff;
+    font-weight: 900;
+}
+
+.fa-dizzy{
+    margin-right: 8px;
+    font-size: 1.5em;
+    color: #b1b2b1;
+}
+
+.fa-cog{
+    color:#8fbcff;
+}
+
+.error-code{
+    color: red;
+}
+
+.form-check{
+    display: inline-block;
+}
+.badge{
+    font-size: 1.1em;
+    width: 70px;
+    padding: 5px;
+}
+.badge-store{
+    color: #fff;
+    background:#9b0000 ;
+}
+
+.register-icon{
+    font-size: 3rem;
+    margin-right: 5px;
+}
+
+.register-button{
+    width: 300px;
+    display: inline-block;
+    padding: 8px;
+    text-align: left;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #fff;
+    font-size: 2em;
+    margin-top: 25px;
+}
+
+.register-button-fb{
+    background: #0606b8;
+}
+
+.register-button-fb:hover{
+    background: #040449;
+}
+
+.register-button-email{
+    background:#00d3dd;
+}
+
+.register-button-email:hover{
+    background: #00989f ;
+}
+
+.register-button-google{
+    background: #dc3545 ;
+}
+
+.register-button-google:hover{
+    background: #7e000c ;
+}
+
+.us_choose{
+    border:1px solid #ced4da;
+}
+
+.us_error{
+    border:1px solid red;
+}

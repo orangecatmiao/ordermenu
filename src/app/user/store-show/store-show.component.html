@@ -1,0 +1,17 @@
+
+<div style="width:100%;text-align:center"><h2>店家資訊顯示</h2></div>
+
+<div *ngIf="cInfo.store_name!='' " class="col-md-10 col-xs12" style="margin:auto">
+    
+    <div>
+        <i class="fas fa-heart favorite-icon" title="加入最愛商店" [ngClass]="(dataObj.is_favorite)?['love']:null" (click)="favorite()"></i> 
+        <h1 style="display: inline-block;">{{ cInfo.store_name }}</h1>
+    </div>
+    <img *ngIf="cInfo.img_full_url!='' "  [src]="cInfo.img_full_url" alt="">
+    <div [innerHTML]="cInfo.description | nl2br" class="description"></div>
+</div>
+
+
+<div *ngIf="cInfo.store_name=='' ">
+   無此店家
+</div>

@@ -1,0 +1,22 @@
+<div class="page-title"><h2>喜愛店家名單</h2></div>
+
+<!--查詢-->
+<div class="select-div">
+    <p-autoComplete [(ngModel)]="searchStr" [suggestions]="results" (completeMethod)="search($event)"  (onSelect)="searchSelected($event)" (onClear)="searchClear($event)"
+    placeholder="輸入查詢字串" title="輸入查詢字串"></p-autoComplete>
+ 
+   <div style="margin-top:3px">
+    <button class="btn btn-warning" [disabled]="!is_change" (click)="goEdit()">儲存變更</button>
+    <button class="btn btn-light" [disabled]="!is_change" (click)="goCancel()" style="margin-left:3px">恢復</button>
+   </div>
+</div>
+
+<div class="col-12" style="margin:auto;max-width: 500px;">
+    <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let store of list;let i = index" cdkDrag>
+            <a routerLink="/user/schedule-show/{{store.store_id}}">{{i}} -{{store.sort}}-{{store.store_name }}</a>
+            <i class="fas fa-trash-alt" title="刪除" (click)="goDelete(store)" style="margin-left:8px;font-size:1.3em;cursor: pointer;"></i>
+        </div>
+    </div>
+    
+</div>

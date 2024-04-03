@@ -1,0 +1,83 @@
+ /* ============ 購物車工具 ======================*/
+
+.cart-link{
+    font-size: 2em;
+    padding: 20px;
+    border-radius: 5%;
+    cursor: pointer;
+}
+.cart-tool{
+    font-size: 2em;
+    padding: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+
+.team-order{
+    color: #105368;
+    background: #c8f5ff;
+}
+.team-order:hover{
+    background: #84d8eb;
+}
+
+.team-member{
+    color: #028d13;
+    background: #c0ffb4;
+  /*
+    color: #c6891a;
+    background: #ffe589;
+  */
+}
+.team-member:hover{
+    background: #8ff37c;
+}
+.team-file{
+    color: #6b6c6b;
+    background: #ededed;
+}
+.team-file:hover{
+    background: #d5d5d5;
+}
+::ng-deep p-inputmask .ui-inputtext{
+    width:100px;
+    margin-left: 3px;
+    margin-bottom: 5px;
+ }
+ ::ng-deep  p-calendar .ui-inputtext{
+     width:150px;
+     margin-bottom: 5px;
+ }
+/* ============ ....購物車工具 ======================*/
+
+
+.modal-footer{
+    text-align: center;
+}
+
+.modal-body{
+    text-align: center;
+    padding: 20px;
+}
+
+.modal-body .fa-file-alt{
+    font-size: 5em;
+    color: #8b8885;
+    margin-top: 10px;
+}
+
+
+
+@media screen  and (max-width:500px){
+    .modal-body{
+        text-align: center;
+        padding: 5px;
+    }
+    .table th, .table td{
+        padding:2px;
+    }
+    .table th{
+        min-width: 35px;
+    }
+}

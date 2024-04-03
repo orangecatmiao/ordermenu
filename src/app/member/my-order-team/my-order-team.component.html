@@ -1,0 +1,144 @@
+<div class="order-list">
+
+   
+   
+    <div class="page-title"><h2>我的團購</h2></div>
+
+    <!--查詢-->
+    <div class="select-div">
+        <form [formGroup]="cusForm">
+            <select formControlName="status" class="form-control search-select">
+                <option value="">全部</option>
+                <option value="0">已結單</option>
+                <option value="1">未結單</option>
+            </select>
+            <p-calendar formControlName="search_start"  dateFormat="yy/mm/dd" [yearNavigator]="true" yearRange="2000:2030" [locale]="locale"
+            placeholder="開始日期"  styleClass="calendar-input"></p-calendar>
+
+            <p-calendar formControlName="search_end"  dateFormat="yy/mm/dd" [yearNavigator]="true" yearRange="2000:2030" [locale]="locale"
+            placeholder="結束日期"  styleClass="calendar-input"></p-calendar>
+
+            <p-button label="查詢" icon="pi pi-search" styleClass="ui-button-secondary" class="btn-search" (click)="goSearchByMnoth()"></p-button>
+        </form>
+    </div>
+
+
+    <div class="page-title" [hidden]="list.length>0">
+        <h2>目前尚無任何團購</h2>
+    </div>
+    <!-- ===================table-computer========================-->
+    <table class="table table-hover table-bordered col-md-10 screen-computer" [hidden]="list.length==0" style="margin:auto">
+        <thead>
+            <tr class="table-primary">
+                <th class="th-title">團購名稱</th>
+                <th class="th-status">狀態</th>
+                <th class="th-created">
+                    建立
+                    <i class="fas fa-sort-up" (click)="sort('order_date','desc')" [hidden]="sortObj.order_date=='desc' "></i>
+                    <i class="fas fa-sort-down" (click)="sort('order_date','asc')" [hidden]="sortObj.order_date=='asc' "></i>
+                </th>
+                <th class="th-remark">備註</th>
+                <th class="th-info">詳細</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr *ngFor="let item of list" [ngClass]="(item.isChoose===1)?['choosed-item']:null">
+                    <td> <a routerLink="/user/team-order-list/{{ item.store_id }}/{{ item.id }}">{{ item.title }}</a> </td>
+                    <td> <span class="badge" [ngClass]="(item.is_check==1)?['badge-secondary']:['badge-primary']"> {{ item.is_check | checktatus }} </span> </td>
+                    <td>{{ item.created }}</td>
+                    <td>{{ item.remark }}</td>
+                    <td>
+                        <a href="javascript:void(0)" (click)="showModal(item)">查看</a>
+                    </td>
+                </tr>
+        </tbody>
+    <!--
+            <tr>
+            <td colspan="10" align="center">
+                <button class="btn btn-light" (click)="prev()">上一頁</button>
+                <span class="page-tool">第 <span class="page-num">3</span> 頁</span>
+                <button class="btn btn-light" (click)="next()">下一頁</button>
+            </td>
+        </tr>
+    -->
+    </table>
+    
+    <!-- ===================table-mobile========================-->
+    <table class="table table-hover table-bordered  col-xs-12 screen-mobile" [hidden]="list.length==0">
+        <thead>
+            <tr class="table-primary">
+                <th>
+                    訂購時間
+                    <i class="fas fa-sort-up" (click)="sort('order_date','desc')" [hidden]="sortObj.order_date=='desc' "></i>
+                    <i class="fas fa-sort-down" (click)="sort('order_date','asc')" [hidden]="sortObj.order_date=='asc' "></i>
+                </th>
+                <th>金額</th>
+                <th>詳細</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of list" [ngClass]="(item.isChoose===1)?['choosed-item']:null">
+                <td>{{ item.created }}</td>
+                <td>{{ item.price }}</td>
+                <td>
+                    <a href="javascript:void(0)" (click)="showModal(item)">查看</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+    <!--======= Modal =======-->
+    <div class="modal fade" id="orderInfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                   團購單編號:  {{ searchItem.id }}
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered order-info-table">
+                    <tr>
+                        <th class="table-success">團購名稱</th>
+                        <td> 
+                            {{ searchItem.title }} 
+                            <a routerLink="/user/menu/{{ searchItem.store_id }}/{{ searchItem.id }}" (click)="hideModal()"> <button class="btn btn-light btn-page">訂購頁面</button></a>
+                            <a routerLink="/user/team-order-list/{{ searchItem.store_id }}/{{ searchItem.id }}" (click)="hideModal()"> <button class="btn btn-light btn-page">查看訂單</button></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-success">商店名稱</th>
+                        <td> {{ searchItem.store_name }} </td>
+                    </tr>
+                    <tr>
+                        <th class="table-success">預計結單時間</th>
+                        <td> {{ searchItem.end }}  </td>
+                    </tr>
+                    <tr>
+                        <th class="table-success">狀態</th>
+                        <td> 
+                            <span class="badge" [ngClass]="(searchItem.is_check==1)?['badge-secondary']:['badge-primary']"> {{ searchItem.is_check | checktatus }} </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-success">訂購時間</th>
+                        <td>{{ searchItem.check_time }} </td>
+                    </tr>
+                    <tr>
+                        <th class="table-success">備註</th>
+                        <td>{{ searchItem.remark }} </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+            </div>
+            </div>
+        </div>
+    </div>

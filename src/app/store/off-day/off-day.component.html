@@ -1,0 +1,55 @@
+<div class="page-title"><h2>{{title}}</h2></div>
+<div>
+    <p-tabView>
+       
+        <p-tabPanel header="特定休假">
+            <table class="table table-bordered table-hover during-set-table">
+                <tr *ngFor="let item of list"><!--原始定義-->
+                    <td>
+                        <div>
+                            <span class="during-item">{{ item.off }} ({{ item.week | week }})</span>
+                                <span style="float:right">
+                                <i class="fas fa-trash-alt" (click)="goDelete(item)" title="刪除" style="margin-left:5px;font-size: 21px"></i>
+                            </span>
+                        </div>       
+                    </td>
+                </tr>
+                <tr *ngFor="let item of add_list"><!--新增的-->
+                    <td>
+                        <div>
+                            <p-calendar  [(ngModel)]="item.off"  dateFormat="yy/mm/dd" [yearNavigator]="true" yearRange="2020:2021" [locale]="locale"
+                            placeholder="店休日期"  styleClass="calendar-input" (click)="addNewRow(item)"></p-calendar>
+                           <span style="float: right; padding-top: 6px;">
+                                <i class="fas fa-save" (click)="goCreate(item,2)" title="儲存"></i>
+                                <i class="fas fa-window-close" (click)="deleteNewRow(item)" title="取消" style="margin-left:5px" ></i>
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            
+        </p-tabPanel>
+        <p-tabPanel header="固定休假">
+            <table class="table table-hover table-bordered week-table">
+                <tbody>
+                   <tr *ngFor="let week of week_list">
+                     <th class="week-title table-warning">{{ week.title }}</th>
+                     <td>
+                         <p-inputSwitch [(ngModel)]="week.rest" (click)="changeSwitch()"></p-inputSwitch>
+                         <span class="week-turn off-text" [hidden]="!week.rest">休假</span>
+                         <span class="week-turn on-text" [hidden]="week.rest">營業</span>
+                     </td>
+                   </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="btn-tool">
+                        <td colspan="10" style="text-align: center;">
+                            <button class="btn btn-warning" (click)="goUpdateFix()" [disabled]="!weekObj.week_list_change">更新</button>
+                            <button class="btn btn-light" (click)="goRecoverFix()"[disabled]="!weekObj.week_list_change" style="margin-left:3px">復原</button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+         </p-tabPanel>
+    </p-tabView>
+</div>

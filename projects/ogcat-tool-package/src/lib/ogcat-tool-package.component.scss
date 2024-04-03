@@ -1,0 +1,41 @@
+.msg-frame{
+    text-align: center;
+    position: fixed;
+    z-index: 9999;
+    width: 100%;
+    left: 0;
+    top:50px;
+  }
+  .msg{
+    display: inline-block;
+    color: #fff;
+    opacity: .7;
+    border-radius: 20px;
+    padding: 10px 25px;
+  }
+  .msg-error{
+    background: #ec0e0e;
+  }
+  .msg-success{
+    background: black;
+  }
+  .loading-mask{
+    position: fixed;
+    z-index: 1500;
+    width: 100%;
+    left: 0;
+    height: 100vh;
+    text-align: center;
+    background: #000;
+    opacity: .5;
+  }
+  .loading-icon{
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 45vh;
+    text-align: center;
+    z-index: 99;
+  }
+
+

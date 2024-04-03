@@ -1,0 +1,45 @@
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;   
+    cursor: inherit;
+    display: block;
+}
+.btn-text{
+    top: 35%;
+    position: relative;
+}
+.image-tool{
+    position: absolute;
+    text-align: right;
+}
+
+.fa-times{
+    cursor: pointer;
+    padding: 0.2em 0.3em;
+    background: #152d45;
+    color: red;
+    border-radius: 5px;
+}
+.fa-times:hover{
+    background: #fdff54;
+    color: #485513;
+    
+}
+
+.img-thumbnail{
+    position: relative;
+    z-index: -1;
+   /* top: -43px;*/
+}

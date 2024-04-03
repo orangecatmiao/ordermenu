@@ -1,0 +1,35 @@
+.login-input{
+    width:300px;
+    display: inline-block;
+    margin-left: 5px;
+}
+.form-group{
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+}
+label{
+    cursor: pointer;
+}
+.login-td{
+    padding: 50px 10px;
+    border: 3px dashed #62bbfa;
+    box-shadow: 8px 8px 8px #c6c6c6;
+}
+.m-break{
+    margin: 0 0 0 19px;
+    color: #3e8ed5;
+}
+
+$btn-fb-login:#005fb2;
+$btn-fb-login-hover:#053761;
+.btn-fb-login{
+    width:300px;
+    background:$btn-fb-login;
+    border: 1px solid $btn-fb-login;
+}
+
+.btn-fb-login:hover{
+    background:$btn-fb-login-hover;
+    border: 1px solid$btn-fb-login-hover;
+}

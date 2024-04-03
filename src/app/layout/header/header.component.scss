@@ -1,0 +1,83 @@
+li{
+    cursor: pointer;
+}
+.bells{
+    position: fixed;
+    right: 30px;
+    top: 20px;
+    z-index: 1030;
+}
+.bells-info{
+  position: absolute;
+  left: 8px;
+  top: -11px;
+  background: red;
+  border-radius: 50%;
+  padding: 0% 25%;
+  color: #fff;
+  font-size: 0.8em;
+  display: block;
+  text-align: center;
+}
+
+
+
+.info-wall{
+    position: fixed;
+    top: 55px;
+    right: 0px;
+    width: 410px;
+    height: 400px;
+    background: #fff;
+    overflow:auto;
+    z-index: 1300;
+  }
+  .badge{ font-size: 1.3em; margin-left: 8px}
+  .info-wall-bg{cursor: pointer;}
+  .info-wall-bg :hover{background: #afb0ff}
+
+  .trbg-read{background:#fff}  
+  .trbg-no-read{background:#ddeefd}
+
+  .trbg-hover:hover{
+    background: #ebfaff;
+  }
+
+  .bell-box{
+    position: absolute;
+    right:20px;
+    top:15px;
+    cursor: pointer;    
+    width: 35px;
+    height: 35px;
+  }
+
+  .info-wall-list{
+    margin-bottom: 3px;
+    padding:5px
+  }
+  .info-item{
+    margin-left:8px;
+    font-size: 1.3em;
+  }
+
+  .red{
+    color: red;
+  }
+  .bold{
+    font-weight: 900;
+  }
+
+ hr{
+   margin: 0;
+ }
+
+
+  /*
+  .fa-bell{
+    font-size:26px;
+    margin: 0 5px; 
+    position: relative; 
+    top: -25px;
+  }
+  */

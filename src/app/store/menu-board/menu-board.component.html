@@ -1,0 +1,22 @@
+<div class="page-title"><h2>{{title}}</h2></div>
+<table class="table table-bordered table-hover during-set-table" style="margin-top:15px;">
+    <tr>
+        <td>
+            <p-inputSwitch [(ngModel)]="cInfo.on" title="顯示在菜單上"></p-inputSwitch>
+            <span class="board-msg" [hidden]="!cInfo.on">顯示公告</span>
+            <span class="board-msg" [hidden]="cInfo.on">不顯示公告</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <textarea [(ngModel)]="cInfo.info" class="form-control" placeholder="請輸入顯示在菜單上的公告" style="height:50px;"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align:center;">
+            <button class="btn btn-primary" (click)="goSave()" style="width:150px">確定</button>
+        </td>
+    </tr>
+</table>
+
+

@@ -1,0 +1,26 @@
+
+
+
+<div *ngIf="myPhoto==null || myPhoto=='' ">
+    <div *ngIf="imgShow.show==0" class="btn btn-light btn-file" (dragover)="dragoverHandler($event)" 
+    (drop)="dropHandler($event,'imgShow','drop')" [ngStyle]="styleObj.file_input" style="width:100%;"><!--height:150px-->
+        <span class="btn-text">圖片</span> <input type="file" (change)="dropHandler($event,'imgShow','change')">
+    </div>
+    
+    <div *ngIf="imgShow.show==1" class="pic picframe"  style="width:100%">
+        <div class="image-tool"  [ngStyle]="styleObj.image_tool" >
+            <i class="fas fa-times" (click)="deleteAddSlider()" title="刪除圖片"></i>
+        </div>
+        <img [src]="imgShow.src" class="img-thumbnail" title="商店顯示圖片" style="width:100%;">  
+    </div>
+</div>
+    
+
+<div *ngIf="myPhoto!=null && myPhoto!='' " class="pic_old picframe">
+    <div class="image-tool" [ngStyle]="styleObj.image_tool">
+        <i class="fas fa-times" [ngStyle]="styleObj.fa_times" (click)="goDeleteBanner()" title="刪除資料庫的的圖片"></i>
+    </div>
+    <img [src]="myPhoto" class="img-thumbnail" title="商店顯示圖片" style="width:100%;">
+</div>
+
+

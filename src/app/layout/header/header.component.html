@@ -1,0 +1,154 @@
+
+<lib-ogcat-tool-package></lib-ogcat-tool-package>
+
+<!--總後台 -- 總後台選單-->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #e3f2fd;">
+    <!--<a class="navbar-brand" href="#">Icon</a>-->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li  class="nav-item dropdown" [hidden]="userInfo.uid==null">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            會員中心
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#" routerLink="/member/member-info" outerLinkActive="active">會員資料</a>
+            <a class="dropdown-item" href="#" routerLink="/member/update-password" outerLinkActive="active">更改密碼</a>
+            <a  class="dropdown-item" href="#" routerLink="/member/my-favorite" outerLinkActive="active">喜愛店家</a>
+            <a class="dropdown-item" href="#" routerLink="/member/my-order" outerLinkActive="active" >我的訂購</a><!--*ngIf="userInfo.user_type=='U' "-->
+            <a class="dropdown-item" href="#" routerLink="/member/my-order-team" outerLinkActive="active" >我的團購</a>
+          </div>
+        </li>
+
+
+        <li  class="nav-item dropdown" *ngIf="userInfo.user_type=='S' " [hidden]="userInfo.uid==null">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            我的商店
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#" routerLink="/store/store-edit" outerLinkActive="active">設定商店頁面</a>
+            <a class="dropdown-item" href="#" routerLink="/store/category" outerLinkActive="active">設定菜單類別</a>
+            <a class="dropdown-item" href="#" routerLink="/store/price" outerLinkActive="active">設定價格種類</a>
+            <a class="dropdown-item" href="#" routerLink="/store/menu-edit" outerLinkActive="active">設定菜單</a>
+            <a class="dropdown-item" href="#" routerLink="/store/menu-on-off" outerLinkActive="active">菜單開關</a>
+            <a class="dropdown-item" href="#" routerLink="/store/menu-board" outerLinkActive="active">菜單公告</a>
+            <a class="dropdown-item" href="#" routerLink="/store/off-day" outerLinkActive="active">設定休假</a>
+            <a class="dropdown-item" href="#" routerLink="/store/customer-order" outerLinkActive="active">查看客戶訂單</a>
+          </div>
+        </li>
+
+       
+        <li class="nav-item" routerLink="/user/store-show/{{storeInfo.id}}" routerLinkActive="active" [hidden]="storeInfo == null || storeInfo.id==null || storeInfo.id=='' ">
+          <a class="nav-link">我的商店</a>
+        </li>
+        <li class="nav-item" routerLink="/user/menu/{{storeInfo.id}}" routerLinkActive="active" [hidden]="storeInfo == null || storeInfo.id==null || storeInfo.id=='' ">
+          <a class="nav-link">菜單</a>
+        </li>
+        <li class="nav-item" routerLink="/user/off-day-show/{{storeInfo.id}}" routerLinkActive="active" [hidden]="storeInfo == null || storeInfo.id==null || storeInfo.id=='' ">
+          <a class="nav-link">休假日顯示</a>
+        </li>
+      
+
+
+        <li class="nav-item" routerLinkActive="active">
+          <a href="https://www.youtube.com/watch?v=9EsQVd_NWsc" target="_blank" class="nav-link">操作說明</a>
+        </li>
+      
+      
+      </ul>
+  
+      <ul class="nav navbar-nav navbar-right" style="margin-right:50px;">
+            <li class="nav-item" [hidden]="userInfo.uid==null"><a href="javascript:void(0)" class="nav-link" > {{userInfo.displayName}} </a></li>
+            <li class="nav-item" [hidden]="userInfo.uid==null" routerLinkActive="active" (click)="logout()"><a class="nav-link">登出</a></li> 
+         
+            <li class="nav-item" [hidden]="userInfo.uid!=null" routerLink="/user/login" routerLinkActive="active"><a class="nav-link">登入</a></li>
+            <li class="nav-item" [hidden]="userInfo.uid!=null" routerLink="/user/register" routerLinkActive="active"><a class="nav-link">註冊</a></li>
+      </ul>
+    </div>
+</nav>
+  <div class="bells" [hidden]="userInfo.uid==null" (click)="isShowInfoWall($event)" >
+    <span class="bells-info" [hidden]="bells==0">{{ bells }}</span>
+    <i class="fas fa-bell" style="font-size: 24px;"></i>
+  </div>
+
+
+<!-- 訊息牆 -->
+<div  [hidden]="is_show_info_wall != true" class="info-wall" style="font-size: 10px"><!--(click)="$event.stopPropagation();" -->
+  <div style="padding: 20px 10px 5px 10px;font-size: 1.8em;">通知</div>
+  <hr/>
+  <table class="table table-hover table-bordered bell-table" [hidden]="info_wall_list.length == 0">
+    <tr *ngFor="let item of info_wall_list" class="trbg-hover" [ngClass]="(item.r==1)?['trbg-read']:['trbg-no-read']" style="cursor:pointer">
+      <td (click)="updateRead(item)">
+        <div class="info-wall-list">
+          <div [hidden]="item.ty!='E' " routerLink="/store/customer-order/{{ item.des }}" >
+            <span class="badge badge-success" >新訂單</span>
+            <span class="info-item">您有一筆新訂單</span>
+            <span class="info-item red bold" [hidden]="item.r==1">New!</span>
+          </div>
+         
+          <div [hidden]="item.ty!='PE' " routerLink="/store/customer-order/{{ item.des }}" >
+            <span class="badge badge-success" >新訂單</span>
+            <span class="info-item">[已付款]-您有一筆新訂單</span>
+            <span class="info-item red bold" [hidden]="item.r==1">New!</span>
+          </div>
+
+          <div [hidden]="item.ty!='Q' ">
+            <span class="badge badge-pill badge-order">問題</span>
+          </div>
+          
+          <div [hidden]="item.ty!='P' " routerLink="/store/customer-order/{{ item.des }}" >
+            <span class="badge badge-pill badge-danger"> 付款 </span>
+            <span class="info-item">有新的訂單付款!!</span>
+            <span class="info-item red bold" [hidden]="item.r==1">New!</span>
+          </div>
+          
+          <div [hidden]="item.ty!='C' " [routerLink]="(userInfo.user_type=='U')? '/member/my-order/'+item.des : '/store/customer-order/'+item.des " >
+            <span class="badge badge-secondary" > 取消訂單 </span>
+            <span class="info-item">一筆被取消的訂單</span>
+            <span class="info-item red bold" [hidden]="item.r==1">New!</span>
+          </div>
+
+          <div [hidden]="item.ty!='CP' " routerLink="/member/my-order/{{ item.des }}" >
+            <span class="badge badge-info" > 付款確認 </span>
+            <span class="info-item">您的訂單已成立!</span>
+            <span class="info-item red bold" [hidden]="item.r==1">New!</span>
+          </div>
+         
+        </div>
+       
+      </td>
+    </tr>
+  </table>
+  <div [hidden]="info_wall_list.length > 0" style="padding:40px 20px">
+     <h3>您目前沒有任何訊息。</h3>
+  </div>
+</div>
+
+
+<div class="alert alert-warning" role="alert" [hidden]="userInfo.uid==null || userInfo.emailVerified==true" style="position:relative;top:70px">
+  <strong>
+    <i class="fas fa-exclamation-triangle"></i>
+    <span style="margin-left: 10px;">您尚未驗證 email 。將無法新增任何資料。若點擊驗證信以後必須 
+      <span style="color:red"><strong>重新登入</strong> </span>才能新增資料。
+    </span>
+  </strong>
+</div>
+
+<!--
+  <li class="nav-item" routerLink="/backend/set-schedule" routerLinkActive="active"><a class="nav-link">設定時間表</a></li>
+  <li class="nav-item" routerLink="/backend/show-schedule" routerLinkActive="active"><a class="nav-link">時間表顯示</a></li>
+  <li class="nav-item" routerLink="/backend/during-page" routerLinkActive="active"><a class="nav-link">時段設定</a></li>
+-->
+
+
+<!--
+  
+<hr/>
+<span class="badge badge-pill badge-secondary" style="background: #7e52e6;"> item.customer_name </span> 已預約 
+<span class="badge badge-warning"> item.order_date </span>
+<span class="badge badge-info"> item.start | noSecond ~ item.end | noSecond </span>
+<span class="badge badge-pill badge-danger"> item.during 分鐘</span>
+-->

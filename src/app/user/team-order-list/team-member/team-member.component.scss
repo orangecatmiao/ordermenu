@@ -1,0 +1,100 @@
+table,.mtable{ margin:auto }
+.mobile-table th{
+    width:70px;
+}
+.mobile-table{
+    max-width: 200px;
+}
+table.screen-mobile > tr > th, table.screen-mobile tr > td{
+    padding:3px;
+} 
+/*
+::placeholder, input[type="text"]{
+    text-align: center;
+}
+*/
+.center table tr,.center table td{text-align: center}
+.member{ min-width:70px; width:14%;}
+.product{min-width:70px; width:22%;}
+.remark{ min-width:70px; width:17%; }
+.quantity{min-width:47px; width:8%;}
+.price{min-width:47px; width:9%;}
+.count{min-width:47px; width:8%;}
+.edittool{min-width:57px; width:8%;}
+.fas{cursor: pointer;}
+
+.order-title{ display: inline-block; ; margin-right: 5px}
+.time-title{
+    color: #979696;
+    float: right;
+}
+.no-order-list{
+    padding:10px;
+    text-align: center;
+}
+.alert-info{margin:auto;margin-top:5px;padding:5px;display:flex}
+.modal-body{ padding:5px;}
+.modal-body .table td{ border:0}
+.screen-computer{
+    display: table;
+}
+.badge{
+    font-size: 1em;
+}
+.mobile-edit-table th, td{
+    text-align: left;
+}
+.mobile-edit-table th{
+    width:70px;
+}
+.screen-mobile{
+    display: none;
+}
+@media screen and (min-width: 764px) {
+  
+}
+@media screen and (min-width: 763px) {
+   
+}
+  
+@media screen and (max-width: 680px) {
+    /*.remark{min-width:100px;}*/
+  /*  .member{ min-width:85px;width:100px}*/
+ }
+@media screen and (max-width: 700px) {
+   .screen-computer{
+        display: none;
+    }
+    
+    .screen-mobile{
+        display: block;
+    }
+  
+    .badge{
+        font-size: 75%;
+    }
+
+    .time-title{
+        font-size: 10px;
+    }
+    th,td,.alert ,input[type=text], ::placeholder{ font-size: 12px;}
+  /*
+    .product{min-width:125px;width:200px}
+    .member{ min-width:85px;width:100px}
+    .quantity{min-width:47px;}
+    .price{min-width:47px;}
+    .count{min-width:47px;}
+    .remark{min-width:47px;}
+  */
+}
+
+@media screen and (max-width: 500px) {
+    
+    .member{ min-width:65px; width:16%;}
+    .product{min-width:65px; width:44%;}
+    .remark{ min-width:35px; width:9%; }
+    .quantity{min-width:35px; width:9%;}
+    .price{min-width:35px; width:9%;}
+    .count{min-width:35px; width:5%;}
+    .edittool{min-width:38px; width:8%;}
+ }

@@ -1,0 +1,17 @@
+
+
+  <!--等待圖示遮罩-->
+  <div *ngIf="loading_mask">
+    <div class="loading-mask"></div>
+    <div class="loading-icon">
+      <i class="fa-4x fas fa-spinner fa-pulse"></i>
+    </div>
+  </div>
+  
+  
+  <!--訊息顯示-->
+  <div class="msg-frame">
+    <div *ngIf="msg.success" class="msg msg-success">{{msg.text}}</div>
+    <div *ngIf="msg.error" class="msg msg-error">{{msg.text}}</div>
+  </div> 
+  

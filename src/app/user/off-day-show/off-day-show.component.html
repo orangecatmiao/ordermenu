@@ -1,0 +1,32 @@
+<div class="page-title"><h2>{{title}}</h2></div>
+<div>
+    <p-tabView>
+        <p-tabPanel header="特定休假">
+            <table class="table table-bordered table-hover during-set-table">
+                <tr *ngFor="let item of list"><!--原始定義-->
+                    <td>
+                        <div>
+                            <span class="during-item">{{ item.off }} ({{ item.week | week }})</span>
+                                <span style="float:right">
+                            </span>
+                        </div>       
+                    </td>
+                </tr>
+            </table> 
+        </p-tabPanel>
+        <p-tabPanel header="固定休假">
+            <table class="table table-hover table-bordered week-table">
+                <tbody>
+                   <tr *ngFor="let week of week_list">
+                     <td>
+                         {{ week.title }}
+                         <span class="week-turn off-text" [hidden]="!week.rest">休假</span>
+                         <span class="week-turn on-text" [hidden]="week.rest">營業</span>    
+                    </td>
+                    
+                   </tr>
+                </tbody>
+            </table>
+         </p-tabPanel>
+    </p-tabView>
+</div>

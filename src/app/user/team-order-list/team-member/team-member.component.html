@@ -1,0 +1,307 @@
+<div [hidden]="!is_check" class="alert alert-danger col-xl-8 col-lg-10 col-md-11 col-sm-12 col-xs-12" role="alert" style="margin:auto;margin-bottom:20px;">
+    <h3 style="text-align: center">
+        <i class="fas fa-exclamation-circle" title="團購備註"></i>
+        {{ 'MEMBER_LIST.MSG_ORDER_ENDED' | translate }}
+    </h3>
+</div>
+
+<!-- 輸入暱稱之後 -->
+<div> <!--*ngIf="is_nick"-->
+    <div class="col-xl-9 col-lg-10 col-md-11 col-sm-12 col-xs-12 center m-table" style="margin:auto;padding:0;">
+        <div class="order-title">
+            <h3>{{titleInfo.store_name}}  -- 
+                <a routerLink="/user/menu/{{params.id}}/{{ params.team_order_id }}">{{titleInfo.title}}</a> 
+            </h3>
+        </div>
+        <div [hidden]="!charge" style="margin-bottom: 8px;"> <span class="badge badge-warning">團購負責人</span></div>
+        <div class="order-title">{{ 'MEMBER_LIST.ORDERER' | translate }}: <span class="badge badge-primary">{{titleInfo.order_name}}</span></div>
+        <div class="order-title">{{ 'MEMBER_LIST.END_TIME' | translate }}: <span class="badge badge-danger">{{titleInfo.end }}</span></div><!-- | noSecond-->
+        <div class="order-title time-title">{{titleInfo.created}}</div>
+    </div>
+    <div class="col-xl-9 col-lg-10 col-md-11 col-sm-12 col-xs-12 alert alert-primary m-table alert-info" role="alert">
+        <i class="fas fa-info-circle"></i> &nbsp;  <div [innerHTML]="titleInfo.remark | nl2br"></div>
+    </div>
+
+    <div class="col-xl-9 col-lg-10 col-md-11 col-sm-12 col-xs-12 center mtable m-table" style="overflow:auto;padding:0;">
+        <table class="table table-bordered">
+            <tr>
+                <td colspan="10">
+                        {{ 'MEMBER_LIST.ORDER_LIST' | translate }}
+                    <button *ngIf="charge" class="btn btn-sm btn-dark" (click)="goCheckOrder()"  [disabled]="is_check==1" style="float:right;margin-left:5px">
+                            {{ 'MEMBER_LIST.CHECK' | translate }}
+                    </button>
+                    <button class="btn btn-sm btn-light" (click)="showTotal()" style="float:right">{{ 'MEMBER_LIST.TOTAL' | translate }}</button>
+                </td>
+            </tr>
+        </table>
+        <div [hidden]="order_list.length>0" class="no-order-list">
+            <h3>目前尚無任何訂購</h3>
+        </div>
+         <!--=================1. 顯示列表 (電腦版 >700px) ========================= -->
+        <table [hidden]="order_list.length==0" class="screen-computer table table-bordered">
+            <tr class="table-warning">
+                <th class="member">{{ 'MEMBER_LIST.ORDERER' | translate }}</th>
+                <th class="product">{{ 'MEMBER_LIST.PRODUCT_NAME' | translate }}</th>
+                <th class="price">{{ 'MEMBER_LIST.PRODUCT_PRICE' | translate }}</th>
+                <th class="quantity">{{ 'MEMBER_LIST.PRODUCT_QUANTITY' | translate }}</th>
+                <th class="count">{{ 'MEMBER_LIST.PRODUCT_SUBTOTAL' | translate }}</th>
+                <th class="remark">{{ 'REMARK' | translate }}</th>
+                <th class="edittool">{{ 'EDIT' | translate }}</th>
+            </tr>
+            <tr *ngFor="let item of order_list">
+                <td>
+                    <span>{{ item.order_name }}   </span>
+                   
+                </td>
+                <td>
+                    <span>
+                        <span> {{ item.name }}</span>
+                        <span [hidden]="item.price_obj==null">({{ item.price_obj.price_name }})</span>
+                    </span>
+                </td>
+                <td>
+                    <span>
+                        <span [hidden]="item.price_obj!=null">{{ item.price }}</span>
+                        <span [hidden]="item.price_obj==null">{{ item.price_obj.price }}</span>
+                    </span>
+                </td>
+                <td>
+                    <span *ngIf="!item.is_edit">{{ item.quantity }}</span>
+                    <input *ngIf="item.is_edit" [(ngModel)]="editObj.quantity" type="text" class="form-control" [disabled]="!charge && is_check"
+                    [placeholder]="'MEMBER_LIST.PLACEHOLDER_PRODUCT_QUANTITY' | translate" style="text-align: center">
+                </td>
+                <td>
+                    <span>
+                        <span [hidden]="item.price_obj!=null">{{ item.price*item.quantity }}</span>
+                        <span [hidden]="item.price_obj==null">{{ item.price_obj.price*item.quantity }}</span>
+                    </span>
+                </td>
+                <td>
+                    <span *ngIf="!item.is_edit">{{ item.remark }}</span>
+                    <input *ngIf="item.is_edit"  [(ngModel)]="editObj.remark" type="text" class="form-control"  [disabled]="!charge && is_check"
+                    [placeholder]="'REMARK' | translate" style="text-align: center">
+                </td>
+                <td>
+                    <div *ngIf="!item.is_edit">
+                        <div *ngIf="(item.order_uid == uid  &&  !is_check ) || charge">
+                            <i class="fas fa-pen-square"  (click)="goEditOrder(item)"></i>&nbsp;
+                            <i class="fas fa-window-close" (click)="goCancelOrder(item)" style="color:red"></i>
+                        </div>
+                        <div *ngIf="(item.order_uid!=uid && !charge) || (!charge  &&  is_check )">
+                            <i class="fas fa-pen-square" [title]="'EDIT' | translate" style="color:#dedede;cursor: default;"></i>&nbsp;
+                            <i class="fas fa-window-close"  [title]=" 'DELETE' | translate" style="color:#dedede;cursor: default;"></i>
+                        </div>
+                    </div>
+
+
+                    <div *ngIf="item.is_edit">
+                        <i class="fas fa-check-square" [title]="'SAVE' | translate" (click)="checkEditOrder()" style="color:#0976d6"></i>&nbsp;
+                        <i class="fas fa-window-close" [title]="'CANCEL' | translate" (click)="item.is_edit = false"></i>
+                    </div>
+                </td>
+            </tr>
+             <!--=================2. 新增 (電腦版 >500px) ========================= -->
+           <!--
+                <tr>
+                <td class="member">
+                    <input [(ngModel)]="addObj.name" type="text" class="form-control" [placeholder]="'MEMBER_LIST.PLACEHOLDER_ORDERER' | translate" (focus)="checkToken()" [disabled]="!charge && is_check">
+                </td>
+                <td class="product">
+                    <input [(ngModel)]="addObj.product" type="text" class="form-control" [placeholder]="'MEMBER_LIST.PLACEHOLDER_PRODUCT_NAME' | translate" [disabled]="!charge && is_check">
+                </td>
+                <td class="price">
+                    <input [(ngModel)]="addObj.price" type="text" class="form-control" [placeholder]="'MEMBER_LIST.PLACEHOLDER_PRODUCT_PRICE' | translate" [disabled]="!charge && is_check">
+                </td>
+                <td class="quantity">
+                    <input [(ngModel)]="addObj.quantity" type="text" class="form-control" [placeholder]="'MEMBER_LIST.PLACEHOLDER_PRODUCT_QUANTITY' | translate" [disabled]="!charge && is_check">
+                </td>
+                <td class="count" style="text-align:center">{{ addObj.quantity * addObj.price }}</td>
+                <td class="remark">
+                    <input [(ngModel)]="addObj.remark" type="text" class="form-control" [placeholder]="'REMARK' | translate" [disabled]="!charge && is_check">
+                </td>
+                <td class="quantity">
+                    <button class="btn btn-sm btn-primary" (click)="checkAddFiled()" [disabled]="!charge && is_check" style="font-size: 12px">
+                        {{ 'MEMBER_LIST.PRODUCT_ORDER' | translate }}
+                    </button>
+                </td>
+            </tr>
+           -->
+        </table>
+
+
+        <!--=================1. 顯示列表 (手機版 <=700px) --mobile========================= -->
+        <table [hidden]="order_list.length==0" class="screen-mobile table table-bordered">
+            <tr class="table-warning">
+                <th class="member">{{ 'MEMBER_LIST.ORDERER' | translate }}</th>
+                <th class="product">{{ 'MEMBER_LIST.PRODUCT_NAME' | translate }}</th>
+                <th class="price">{{ 'MEMBER_LIST.PRODUCT_PRICE' | translate }}</th>
+                <th class="quantity">{{ 'MEMBER_LIST.PRODUCT_QUANTITY' | translate }}</th>
+                <th class="count">{{ 'MEMBER_LIST.PRODUCT_SUBTOTAL' | translate }}</th>
+                <th class="remark">{{ 'MEMBER_LIST.REMARK' | translate }}</th>
+                <th class="edittool">{{ 'EDIT' | translate }}</th>
+            </tr>
+            <tr *ngFor="let item of order_list">
+                <td><span>{{ item.order_name }}</span></td>
+                <td><span>{{ item.name }}</span></td>
+                <td>
+                    <span [hidden]="item.price_obj!=null">{{ item.price*item.quantity }}</span>
+                    <span [hidden]="item.price_obj==null">{{ item.price_obj.price*item.quantity }}</span>
+                </td>
+                <td><span>{{ item.quantity }}</span></td>
+                <td><span>{{ item.price*item.quantity }}</span></td>
+                <td>
+                    <i class="fas fa-info-circle" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" [attr.data-content]="item.remark"></i>
+                </td>
+                <td style="padding:2px">
+                    <div class="mobile-edit-tool">
+                        <div *ngIf="(item.order_uid == uid  &&  !is_check ) || charge ">
+                            <i class="fas fa-pen-square"  (click)="showEditModal(item)" ></i>&nbsp;
+                            <i class="fas fa-window-close" (click)="goCancelOrder(item)" style="color:red"></i>
+                        </div>
+                        <div *ngIf="(item.order_uid!=uid && !charge) || (!charge  &&  is_check )">
+                            <i class="fas fa-pen-square" [title]="'EDIT' | translate" style="color:#dedede;cursor: default;"></i>&nbsp;
+                            <i class="fas fa-window-close" [title]=" 'DELETE' | translate" style="color:#dedede;cursor: default;"></i>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    
+    
+    
+
+    <!--=================2. 新增 (手機版 <=700px) --mobile ========================= -->
+   <!--
+    <button class="screen-mobile btn btn-sm btn-primary" (click)="showAddModal()" [disabled]="!charge && is_check" style="width:100%;margin-top: 2px">
+        {{ 'MEMBER_LIST.GO_ORDER' | translate }}
+    </button>
+   -->
+
+</div><!--. *ngIf="is_nick"-->
+<div class="col-md-7 col-sm-12 col-xs-12" style="margin:auto;padding:0;margin-bottom: 150px;">{{nick_info}}</div>
+
+
+
+
+<!--新增 model --mobile -->
+<!--
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{ 'MEMBER_LIST.ORDER_ADD' | translate }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-bordered mobile-table screen-mobile">
+                <tr>
+                    <th class="table-primary">{{ 'MEMBER_LIST.ORDERER' | translate }}</th>
+                    <td>
+                        <input [(ngModel)]="addObj.name" type="text" class="form-control" [placeholder]="'MEMBER_LIST.PLACEHOLDER_ORDERER' | translate" [disabled]="!charge && is_check">
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-primary">{{ 'MEMBER_LIST.PRODUCT_NAME' | translate }}</th>
+                    <td>
+                        <input [(ngModel)]="addObj.product" type="text" class="form-control" [placeholder]="'MEMBER_LIST.PLACEHOLDER_PRODUCT_NAME' | translate"  [disabled]="!charge && is_check">
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-primary">{{ 'MEMBER_LIST.PRODUCT_PRICE' | translate }}</th>
+                    <td>
+                        <input [(ngModel)]="addObj.price" type="text" class="form-control" [placeholder]="'MEMBER_LIST.PLACEHOLDER_PRODUCT_PRICE' | translate" [disabled]="!charge && is_check">
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-primary">{{ 'MEMBER_LIST.PRODUCT_QUANTITY' | translate }}</th>
+                    <td>
+                        <input [(ngModel)]="addObj.quantity" type="text" class="form-control" [placeholder]="'MEMBER_LIST.PLACEHOLDER_PRODUCT_QUANTITY' | translate" [disabled]="!charge && is_check">
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-primary">{{ 'MEMBER_LIST.PRODUCT_SUBTOTAL' | translate }}</th>
+                    <td>
+                        {{ addObj.quantity * addObj.price }}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-primary">{{ 'MEMBER_LIST.REMARK' | translate }}</th>
+                    <td>
+                        <input [(ngModel)]="addObj.remark" type="text" class="form-control" [placeholder]="'REMARK' | translate" [disabled]="!charge && is_check">
+                    </td>
+                </tr>
+            </table>
+            <div [hidden]="err_msg==''" class="err-msg">{{err_msg}}</div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" [disabled]="!charge && is_check">{{ 'CLOSE' | translate }}</button>
+            <button type="button" class="btn btn-primary" (click)="checkAddFiled()" [disabled]="!charge && is_check">{{ 'MEMBER_LIST.PRODUCT_ORDER' | translate }}</button>
+        </div>
+        </div>
+    </div>
+</div>
+-->
+
+<!--修改 model --mobile -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{ 'MEMBER_LIST.ORDER_EDIT' | translate }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+           <table class="table table-bordered mobile-edit-table" style="width:250px;">
+                <tr>
+                    <th class="table-primary">訂購者</th>
+                    <td>{{editObj.order_name}} </td>
+                </tr>
+                <tr>
+                    <th class="table-primary">品名</th>
+                    <td>{{editObj.name}}</td>
+                </tr>
+                <tr>
+                    <th class="table-primary">單價</th>
+                    <td>
+                        <span [hidden]="editObj.price_obj!=null">{{ editObj.price }}</span>
+                        <span [hidden]="editObj.price_obj==null">{{ editObj.price_obj.price }}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-primary">數量</th>
+                    <td>
+                        <input [(ngModel)]="editObj.quantity" type="text" class="form-control" [placeholder]="'MEMBER_LIST.PLACEHOLDER_PRODUCT_QUANTITY' | translate" 
+                        [disabled]="!charge && is_check" style="width: 40px;">
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-primary">小計</th>
+                    <td>
+                        <span [hidden]="editObj.price_obj!=null">{{ editObj.price*editObj.quantity }}</span>
+                        <span [hidden]="editObj.price_obj==null">{{ editObj.price_obj.price*editObj.quantity }}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-primary">備註</th>
+                    <td>
+                        <input [(ngModel)]="editObj.remark" type="text" class="form-control" [placeholder]="'REMARK' | translate" [disabled]="!charge && is_check">
+                    </td>
+                </tr>
+           </table>
+           
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" [disabled]="!charge && is_check">{{ 'CLOSE' | translate }}</button>
+            <button type="button" class="btn btn-primary" (click)="checkEditOrder()" [disabled]="!charge && is_check">{{ 'MEMBER_LIST.CONFIRM_TO_EDIT' | translate }}</button>
+        </div>
+        </div>
+    </div>
+</div>
+

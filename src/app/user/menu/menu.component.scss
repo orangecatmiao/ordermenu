@@ -1,0 +1,330 @@
+    .page-title h2{
+        display: inline-block;
+     }
+    .item-img{
+        width:100px;
+        height:100px;
+    }
+
+    .item-img-helf{
+        width:30px;
+        height:30px;
+    }
+
+    .item-img-default{
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        background: #699abc;/*#955e5e*/
+        vertical-align: middle;
+        padding: 40% 10px;
+        text-align: center;
+        color: #fff;
+   }
+
+   .item-img-default::after{
+       content: '準備中';
+   }
+
+    .item-text{
+        margin-left:20px;
+        display: table-cell;
+        width:100%;
+        vertical-align: middle;
+        padding: 0 10px;
+    }
+
+    .item-price{
+        display:inline-block;
+        width:100%;
+    }
+
+    .item-tool{
+        position: absolute;
+        right: 15px;
+        top: 50px;/*mobile*/
+    }
+
+    .item-tool .btn-tool{
+        top: -2px;
+        position: relative;
+        height: 30px;
+    }
+
+    .item-tool .btn-left{
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .item-tool .btn-right{
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .item-tool .tool-input{
+        width: 50px; 
+        height: 29px;
+        text-align: center;
+        border-radius: 0;
+    }
+
+    .item-tool .btn-dark{
+        background-color: #2f5276;
+        border-color: #2f5276;
+    }
+
+    .btn-warning{
+        color:#4f461c;
+    }
+
+    /* ============ 購物車工具 ======================*/
+    .cart{
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        z-index: 1060;
+    }
+
+    .cart-link{
+        font-size: 2em;
+        padding: 20px;
+        border-radius: 5%;
+        cursor: pointer;
+    }
+    .cart-tool{
+        font-size: 2em;
+        padding: 20px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    
+    .store-order{
+        color: #8b0600;
+        background: #ffe6e6;
+    }
+    .store-order:hover{
+        background: #f3c7c7;
+    }
+    .team-order{
+        color: #105368;
+        background: #c8f5ff;
+    }
+    .team-order:hover{
+        background: #84d8eb;
+    }
+
+    .team-member{
+        color: #028d13;
+        background: #c0ffb4;
+      /*
+        color: #c6891a;
+        background: #ffe589;
+      */
+    }
+    .team-member:hover{
+        background: #8ff37c;
+    }
+    .team-file{
+        color: #6b6c6b;
+        background: #ededed;
+    }
+    .team-file:hover{
+        background: #d5d5d5;
+    }
+   /* ============ ....購物車工具 ======================*/
+    .modal-footer{
+        text-align: center;
+    }
+
+    .modal-body{
+        text-align: center;
+        padding: 20px;
+    }
+
+    .modal-body .fa-file-alt{
+        font-size: 5em;
+        color: #8b8885;
+        margin-top: 10px;
+    }
+    
+
+    /*顯示購物成功的彈出 message- 3秒後會自動消失 */
+    ::ng-deep .ui-toast{
+        width:70%;
+        max-width: 400px;
+    }
+
+    .cart-table td{    
+        vertical-align: middle;
+    }
+
+    .item-price-multiple{
+       margin-left: 5px;;
+       display: block; /* mobile */
+    }
+
+
+    .form-check{
+        display: inline-block;
+    }
+    
+    .form-check-label{
+        cursor: pointer;
+    }
+
+    .form-check-label .badge-warning{
+        border-radius: 0;
+    }
+
+    .form-check-label .badge-danger{
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .cart-num{
+        position: absolute;
+        background: red;
+        border-radius: 50%;
+        padding: .1em .65em;
+        color: #fff;
+        display: block;
+        text-align: center;
+        z-index: 10;
+    }
+    .cart-num-store{
+        left: 35px;
+        top: 0px;
+    }
+    .cart-num-member{
+        left: 100px;
+        top: 3px;
+    }
+    .remark{
+        height: 28px;
+        margin-top: 5px;
+    }
+
+    .loading-icon{
+        position: fixed;
+        width: 100%;
+        left: 0;
+        top: 45vh;
+        text-align: center;
+        z-index: 99;
+    }
+    .img-dialog{
+        max-width: 650px;
+    }
+
+
+    .favorite-icon{
+        font-size: 2em;
+        color: #ccc;
+        cursor: pointer;
+        padding: 0 5px;
+    }
+    
+    .love{
+        color:red;
+    }
+
+
+    .item-img:hover{
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        -o-transform: scale(1.1);
+        transform: scale(1.1);
+        cursor: pointer;
+    }
+    .item-img:hover{
+        border:1px solid #ccc;
+        -webkit-transition-duration: 0.5s;
+        -moz-transition-duration: 0.5s;
+        -ms-transition-duration: 0.5s;
+        -o-transition-duration: 0.5s;
+        transition-duration: 0.5s;
+    }
+
+    ::ng-deep p-inputmask .ui-inputtext{
+       width:100px;
+       margin-left: 3px;
+       margin-bottom: 5px;
+    }
+    ::ng-deep  p-calendar .ui-inputtext{
+        width:150px;
+        margin-bottom: 5px;
+    }
+
+  
+    .off-day-title{
+        font-size: 5em;
+        text-align: center;
+        padding: 50px;
+        color: #8d3128;
+        font-weight: 900;
+        border: 10px dashed #b0b0b0;
+    }
+    /*================ animated 的覆蓋 ===============================*/
+  
+      .animated {
+        -webkit-animation-duration:0.5s;
+        animation-duration: 0.5s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+      }
+     /*================ mobile 調整 ===============================*/
+      .btn-order{width:110px;}
+
+    @media screen  and (max-width:600px){
+        .item-tool{
+            top: 43px;
+        }
+        .item-tool .tool-input{
+            width: 30px; 
+            height: 24px;
+            font-size: 12px;;
+        }
+        .item-tool .btn-tool {
+            top: -1px;
+            position: relative;
+            width:25px;
+            height: 24px;
+          }
+        .item-tool .fas{
+            font-size: 12px;
+            top: -4px;
+            position: relative;
+            right: 1px;
+        }
+        .btn-order{
+            width: 80px;
+            font-size: 12px;
+            padding: 3px;
+        }
+        .item-img{
+            width:70px;
+            height:70px;
+        }
+       
+       
+    }
+
+    @media screen  and (max-width:500px){
+        .modal-body{
+            text-align: center;
+            padding: 5px;
+        }
+        .table th, .table td{
+            padding:2px;
+        }
+        .table th{
+            min-width: 35px;
+        }
+    }
+
+
+
+
+
+

@@ -1,0 +1,79 @@
+<style>
+    .mtable th{ 
+        width:140px;
+    }
+    .f-th{
+        background: #6b09c1 !important;
+        color: #fff;
+    }
+    </style>
+    
+    
+    
+    
+    <div style="width:100%;text-align:center"><h2>店家資訊顯示</h2></div>
+    
+    
+    <table class="col-md-10 col-xs-12 table table-bordered table-hover mtable" style="margin:auto">
+        <tr>
+            <th class="f-th">前台顯示頁面</th>
+            <td>
+                <div [hidden]="cInfo.id=='' ">
+                    <a routerLink="/user/store-show/{{cInfo.id}}">{{ origin + '/user/store-show/' + cInfo.id }}</a>
+                    <!--QR code 顯示-->
+                    <div id="qr-store"></div>
+                </div>
+                <div [hidden]="cInfo.id!='' ">尚未建立</div>
+            </td>
+        </tr>
+        <tr>
+            <th class="f-th">前台點餐</th>
+            <td>
+                <div [hidden]="cInfo.id=='' ">
+                    <a routerLink="/user/menu/{{cInfo.id}}">{{ origin + '/user/menu/' + cInfo.id }}</a>
+                    <!--QR code 顯示-->
+                    <div id="qr-menu"></div>
+                </div>
+                <div [hidden]="cInfo.id!='' ">必須新增商店資訊</div>
+            </td>
+        </tr>
+       
+        <tr>
+            <th class="table-primary">商店名稱</th>
+            <td><input type="text" [(ngModel)]="cInfo.store_name" class="form-control" placeholder="請輸入商店名稱"></td>
+        </tr>
+        <tr>
+            <th class="table-primary">
+                商店圖片
+                <div class="badge badge-pill badge-danger" style="font-size: 10px">圖片 1M 以內</div>
+            </th>
+            <td>
+                <app-photo [myPhoto]="cInfo.img_full_url" [imageFile]=" uid + '/' + uid   "  [photo_upload]="photo_upload" [styleObj]="styleObj"
+                (voted)="onVotedPhoto($event)" style="margin-top:20px;height:150px"></app-photo>
+            </td>
+        </tr>
+        <tr>
+            <th class="table-primary">商店說明</th>
+            <td>
+                <textarea id="mytextarea" class="form-control" [(ngModel)]="cInfo.description" placeholder="請輸入商店介紹" style="height:130px !important;">{{ cInfo.description }}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <th style="background:#ededed">建立修改</th>
+            <td style="background:#ededed">
+                <span class="badge badge-success">建立時間</span>
+                <span> {{ cInfo.created }} </span>
+                <span class="badge badge-primary">修改時間</span>
+                <span> {{ cInfo.updated }} </span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="10" align="center">
+                <button class="btn btn-primary col-6" (click)="goSave()" style="margin-right:5px;">確定</button>
+            </td>
+        </tr>
+    </table>
+
+
+
+    

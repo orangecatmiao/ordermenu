@@ -1,0 +1,143 @@
+
+
+<div class="page-title" [hidden]="login_type!=0">
+    <h1>請選擇註冊方式</h1>
+    <select [(ngModel)]="third_user_type" class="form-control" [ngClass]="(third_c_error)?['us_error']:['us_choose']" style="display:inline-block; width:150px;">
+        <option value="">請選擇註冊身分</option>
+        <option value="U">消費者</option>
+        <option value="S">商店</option>
+    </select>
+
+    <div *ngIf="showFbBtn">
+        <div class="register-button register-button-fb"  (click)="goThirdLogin(2)">
+            <i class="fab fa-facebook register-icon" ></i>
+            <span>Facebook登入</span>
+        </div>
+    </div>
+
+    <div *ngIf="showGoogleBtn">
+        <div class="register-button register-button-google"  (click)="goThirdLogin(3)">
+            <i class="fab fa-google-plus register-icon"></i>
+            <span>Google登入</span>
+        </div>
+    </div>
+   
+    <div>
+        <div class="register-button register-button-email" (click)="login_type=1">
+            <i class="fas fa-envelope register-icon"></i>
+            <span>Email註冊</span>
+        </div>
+    </div>
+</div>
+
+<form [formGroup]="cusForm" [hidden]="login_type==0">
+    <table class="table table-bordered col-xs-12 col-md-6" style="margin:auto;">
+        <tr>
+         <td align="center" class="login-td">
+            <div>
+                <h1>註冊<i class="fas fa-user-plus"></i> <button class="btn btn-light" (click)="login_type=0">返回</button></h1>
+            </div>
+            <div class="form-group row">
+                <label for="staticEmail" >帳號</label>
+                <input type="text" formControlName="email" class="form-control login-input" id="staticEmail" placeholder="請輸入 email" title="請輸入 email">
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" >密碼</label>
+                <input type="password" formControlName="password"  class="form-control login-input" id="inputPassword" placeholder="請輸入密碼" title="請輸入密碼">
+            </div>
+            <div class="form-group row">
+                <label for="inputName" >暱稱</label>
+                <input type="text" formControlName="nickname"  class="form-control login-input" id="inputName" placeholder="請輸入暱稱" title="請輸入暱稱">
+            </div>
+            <div class="form-check">
+                <input type="radio" formControlName="user_type" class="form-check-input" value="S"
+                name="user_type" id="user-type-s">
+                <label class="form-check-label" for="user-type-s">
+                    <span class="badge badge-store">商店</span>
+                </label>
+            </div>
+            <div class="form-check" style="margin-left: 20px;">
+                <input type="radio" formControlName="user_type" class="form-check-input" value="U"
+                name="user_type" id="user-type-u">
+                <label class="form-check-label" for="user-type-u">
+                    <span class="badge badge-warning">消費者</span>
+                </label>
+            </div>
+          
+            <div class="error-code" [hidden]="errorMsg=='' ">
+                <strong>
+                    <i class="fas fa-exclamation"></i>
+                    <span style="margin-left:10px">{{ errorMsg }}</span>
+                </strong>
+            </div>
+            <div class="privacy" style="text-align:left;"> 
+                <ol>
+                    <li>我們的網站只提供使用者建立商店頁面，且讓商店能預約的服務。
+                        因為人力因素，我們目前無法做到會員審核，
+                        務必請使用者確認平台上的商店是正確的再進行付款。
+                        也務必請商店確認使用者付款再進行出貨動作。
+                        若客戶與商店如有糾紛，由商店與客戶自行處理，我們不予介入。
+                        所以不論是商店，或是客戶，請在交易前先衡量對方的可靠性。
+                        因人力不足無法兼顧審核請見諒。
+                    </li>
+                    <li>
+                        再次強調由於我們網站沒有商店審查的機制，避免假冒商店，
+                        請客戶在訂購餐點商品之前，
+                        確認自己的訂購網址確實是由該實體商店所提供。
+                        這點非常重要，因為本網站無法一一審查註冊商店的真實性。
+                    </li>
+                    <li>
+                        商店與客戶的訂單資訊，請定期存檔，如果資料庫資料太多無法容納，
+                        我們會定期刪除。保留 1~3 個月內訂單資訊。若有保留需求想保留訂單資訊
+                        在此伺服器者可洽客服專線洽談付費專案。
+                    </li>
+                    <li>
+                        目前網站功能完全免費使用，
+                        目前的功能之後也不會收費。
+                        但是之後網站可能會放置廣告。
+                        以後也可能推出付費使用的新功能供使用者選購。
+                    </li>
+                    <li>
+                        目前網站統一Email方式驗證，若使用其他第三方帳號登入，
+                        依然會要求您提供第三方帳號所註冊的Email，且會發驗證信
+                        讓您確認您是否為此信箱擁有者。
+                        請勿在此網站上提供重要私人個資例如住址電話等，
+                        如因此遭外流本網站不予負責。
+                    </li>
+                    <li>這個網站會使用 cookies 與 sessionStorage, localStorage 來紀錄您在這個網站的各種資訊。若您不同意則無法使用此網站。</li>
+                    <li>這個網站會使用 Google 的 Cookie 來協助提供服務及分析流量。
+                        此外，這個網站會將您的 IP 位址、使用者代理程式、效能和安全性指標一併提供給 Google，
+                        以確保服務品質、產生使用統計資料，以及偵測並處理濫用情形。
+                    </li>
+                </ol>
+            </div>
+            <div class="form-group row" style="margin-top: 15px;">
+                <input type="checkbox" formControlName="agree" class="form-control login-checked" id="inputAgree" title="勾選同意即可通過註冊">
+                <label for="inputAgree" class="agree-label" style="margin-left:5px">註冊本網站帳號及等同同意以上各項隱私權項目</label>
+            </div>
+            <div class="form-group row"  [hidden]="this.cusForm.value.vcaptcha==true ">
+                <input type="checkbox" formControlName="captcha" (change)="checkRoboot($event)" class="form-control login-checked" id="inputCaptcha" title="勾選同意即可通過註冊">
+                <label for="inputCaptcha" class="captcha-label" style="margin-left:5px; top:-4px; position: relative;">勾選表示我不是機器人</label>
+            </div>
+
+            <div class="form-group row" [hidden]="hideloading">
+                <i class="fa fa-cog fa-spin fa-2x fa-fw" ></i>
+                <span class="sr-only">Loading...</span>
+            </div>
+           
+
+            <div  class="form-group row" [hidden]="this.cusForm.value.vcaptcha!=true ">
+                <i class="fas fa-dizzy"></i>
+                <span class="captcha-info">機器人驗證通過</span>
+            </div>
+           
+            <div>
+                <button class="btn btn-success" (click)="goRegister()" [disabled]="cusForm.status=='INVALID'" style="width:300px;">
+                    <i class="fas fa-sign-in-alt"></i><span style="margin-left:5px">送出註冊</span>
+                </button>
+            </div>
+            
+         </td>
+        </tr>
+    </table>
+ </form>

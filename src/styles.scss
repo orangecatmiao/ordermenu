@@ -1,0 +1,147 @@
+/* You can add global styles to this file, and also import other style files */
+
+body{
+    font-family: "微軟正黑體";
+}
+
+.form-control{
+    height: calc(1.5em + .75rem);
+    padding: .1rem .3rem;
+}
+
+.nav-item.active a{
+    font-weight: 900;
+    color:#266fbe !important;
+}
+
+.table td, .table th{
+    padding: .55rem;
+}
+
+.btn-light{
+    background-color: #f1f1f1;
+    border-color: #f1f1f1;
+}
+
+.table-sky{
+    /**#e8f8ff  */
+    background: #e8f2ff;
+}
+
+input.form-control{
+    display: inline-block;
+}
+
+
+/** RWD 版面調整 */
+
+/*
+.screen-computer{
+    display: inline-block;
+    width: 100%;
+}
+.screen-mobile{
+    display: none;
+}
+
+*/
+.screen-mobile.show-time{
+    margin-bottom: 150px;
+}
+
+/*
+.screen-mobile .btn-sm{
+    width: 100%;
+    margin-top: 3px;
+    padding: 2px 3px;
+}
+*/
+.page-title{
+    width:100%;
+    text-align:center;
+}
+
+.error-msg{
+    color: red;
+}
+//------------------------------------------------------
+
+.badge-order{
+    color:#fff;
+    background: #7e52e6; 
+}
+
+.order-list-frame{
+    float:left;
+    padding-left:10px;
+    margin-top:20px;
+    width:100%;
+    min-width:850px;
+ }
+
+.modal{
+    z-index: 1065;
+}
+
+@media screen  and (max-width:700px){
+ 
+    body , a[class="dropdown-item"], .btn, input{
+        font-size:.85em !important;
+    }
+    ::placeholder{
+        font-size:.88em !important;
+    }
+    .search-select{
+        font-size:1em;
+    }
+    .container-fluid{
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+    body .ui-datepicker table td {
+        padding: 0.2em;
+    }
+}
+@media screen  and (max-width:321px){
+    body , a[class="dropdown-item"], .btn, input{
+        font-size:12px !important;
+    }
+    ::placeholder{
+        font-size:12px !important;
+    }
+    .container-fluid{
+        padding-right: 3px;
+        padding-left: 3px;
+    }
+}
+
+//================== bootstrap 覆蓋相關 ============================
+
+
+/*
+.popover-header {}
+*/
+.popover-body {
+    padding: 0;
+   
+}
+.my-popover-body{
+    padding:.5rem .75rem
+}
+
+//================== primeNG 覆蓋相關 ============================
+.p-dialog .p-dialog-content, .p-dialog-footer{
+    padding: 0 .5rem .5rem .5rem !important;
+    font-size: .9em !important;
+}
+
+.p-dialog-header{
+    padding:.3rem 1rem  !important;
+    font-size: .9em !important;
+}
+
+.privacy .p-dialog-header-close{
+    display:none !important;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,0 +1,53 @@
+
+
+<div class="page-title"><h2>{{ title }}</h2></div>
+
+
+<table class="table table-bordered table-hover during-set-table" style="margin-top:15px;">
+    <tr>
+        <th class="during-bg">類別</th>
+    </tr>
+    <tr *ngFor="let item of list"><!--原始定義-->
+        <td>
+            <div>
+
+                <span *ngIf="item.is_edit!=true">
+                    <span class="during-item" [hidden]="item.sort==null || item.sort=='' ">{{ item.sort }} -</span>
+                    <span class="during-item">{{ item.category }}</span>
+                </span>
+                <span *ngIf="item.is_edit==true" class="during-item">
+                    <input type="number"  class="form-control" [(ngModel)]="item.sort" placeholder="排序" style="width:60px;text-align:center;margin-right:3px;">
+                    <input type="text"  class="form-control" [(ngModel)]="item.category" placeholder="菜單類別" style="width:100px;text-align:center">
+                </span>
+             
+              
+                <span style="float:right">
+                    <span *ngIf="item.is_edit==true">
+                        <i class="fas fa-save" (click)="update(item)" title="確認修改"></i>
+                        <i class="fas fa-window-close" (click)="cancelDelete(item)" title="取消修改" style="margin-left:5px;color:#000;"></i>
+                    </span>
+                    <span *ngIf="item.is_edit!=true">
+                        <i class="fas fa-pen-square" (click)="showEdit(item)" title="修改"></i>
+                        <i class="fas fa-trash-alt" (click)="goDelete(item)" title="刪除" style="margin-left:5px;font-size: 21px"></i>
+                    </span>
+                  
+                </span>
+            </div>       
+        </td>
+    </tr>
+    <tr *ngFor="let item of add_list"><!--新增的-->
+        <td>
+            <div>
+                <input type="number" [(ngModel)]="item.sort" class="form-control" placeholder="排序" (click)="addNewRow(item)" style="width:60px;text-align:center;margin-right:3px;">
+                <input type="text" [(ngModel)]="item.category" class="form-control" placeholder="菜單類別" (click)="addNewRow(item)" style="width:100px;text-align:center">
+               
+                <span style="float: right; padding-top: 6px;">
+                    <i class="fas fa-save" (click)="goCreate(item)" title="儲存"></i>
+                    <i class="fas fa-window-close" (click)="deleteNewRow(item)" title="取消" style="margin-left:5px" ></i>
+                </span>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<!--$event.stopPropagation();-->

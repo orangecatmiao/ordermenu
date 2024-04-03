@@ -1,0 +1,28 @@
+
+
+
+
+
+<div *ngIf="is_no_order" class="no-order">
+    <h1>此訂單不存在</h1>
+</div>
+
+<div *ngIf="!is_no_order">
+    <app-team-member [hidden]="is_total" [is_total]="is_total" [titleInfo]="titleInfo" [order_list]="order_list" [charge]="charge" (voted)="onVoted($event)"></app-team-member>
+    <app-team-total [hidden]="!is_total" [is_total]="is_total" [titleInfo]="titleInfo" [order_list]="order_list" [charge]="charge" (voted)="onVoted($event)"></app-team-total>
+</div>
+
+
+
+<!--購物車圖示-->
+<div class="cart">
+    <!--[藍色](結單) 購物車圖示 -- 點擊可以將目前團購單送到店家 -->
+    <app-team-btntool 
+    [params]="params" [userInfo]="userInfo" [teamOrderInfo]="titleInfo" [isModal]="isModal" [socketObj]="socketObj"
+    [cart_list]="order_list" [team_order_list]="order_list" [cInfo]="cInfo" (onVoted)="checkOrder($event)"></app-team-btntool>
+</div>
+
+
+
+
+

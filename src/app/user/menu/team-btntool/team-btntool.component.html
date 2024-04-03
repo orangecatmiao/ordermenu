@@ -1,0 +1,93 @@
+
+    <span *ngIf="teamOrderInfo.order_uid === userInfo.uid && userInfo.uid!=null && teamOrderInfo.is_check!=1 " >
+        <!--購物車圖示[藍色](結單) -- 點擊可以將目前團購單送到店家 -->
+        <i *ngIf="!isModal" class="fas fa-shopping-cart cart-tool team-order" (click)="openTeamOrderListModal()" title="查看目前全部訂購項目" ></i> <!--checkCreateOrder()-->
+        <i *ngIf="isModal" class="fas fa-shopping-cart cart-tool team-order" (click)="getTeamOrderDetail()" title="查看目前全部訂購項目" ></i>
+
+        <!-- Modal -- (團購)顯示團購全部資訊 -->
+        <div class="modal fade" id="teamOrderListModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">訂單</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <div [hidden]="team_order_list.length!=0" title="目前購物車內尚未有商品">
+                        <h4>目前此團購尚未有選購商品。</h4>
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div [hidden]="team_order_list.length==0">
+
+                   
+                        <table class="table table-bordered cart-table table-striped" [hidden]="!isModal">
+                            <thead>
+                                <tr class="table-info">
+                                    <!--<th>圖片</th>-->
+                                    <th>品名</th>
+                                    <th>價格</th>
+                                    <th>數量</th>
+                                    <th>訂購者</th>
+                                    <th>小計</th>
+                                    <th>備註</th>
+                                    <th style="max-width: 60px;">刪除</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of team_order_list">
+                                    <!--<td> <img [src]="item.img_full_url" alt="" class="item-img-helf"> </td>-->
+                                    <td>
+                                        {{ item.name }}
+                                        <span *ngIf=" item.price_obj!=null ">
+                                            <span class="badge badge-warning">{{ item.price_obj.price_name }}</span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span *ngIf=" item.price_obj==null ">{{ item.price }}</span>
+                                        <span *ngIf=" item.price_obj!=null ">{{ item.price_obj.price }}</span>
+                                    </td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>{{ item.order_name }}</td>
+                                    <td>
+                                        <span *ngIf=" item.price_obj==null "> {{ item.quantity * item.price }} </span>
+                                        <span *ngIf=" item.price_obj!=null "> {{ item.quantity * item.price_obj.price }}</span>
+                                    </td>
+                                    <td>{{ item.remark }}</td>
+                                    <td>
+                                        <i class="fas fa-trash-alt" (click)="goDeleteTeamOrderDetail(item)" title="刪除" style="font-size: 1.1em;cursor: pointer;"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="10" style="text-align: right;">總計: NT.{{ team_order_total_price }}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div>
+                            <div style="text-align: left;">
+                                <div>
+                                    <span>連絡電話: </span>
+                                    09 <p-inputMask [(ngModel)]="phone" mask="99-999999" placeholder="99-999999"></p-inputMask>
+                                </div>
+                                <p-calendar [(ngModel)]="pay_day" dateFormat="yy/mm/dd" 
+                                [showTime]="true" [locale]="locale"  placeholder="付款時間" title="請選擇付款時間"></p-calendar>
+                                <p-inputMask [(ngModel)]="pay_number" mask="9999" placeholder="帳號末4碼" title="請填入付款帳號末4碼"></p-inputMask>
+                                <div style="color:blue">[付款時間] 與 [末4碼] 下單後再填，是讓商店確認的付款資訊 </div>
+                            </div>
+                            
+                            <textarea class="form-control" [(ngModel)]="desc" placeholder="訂單備註(限200字)" maxlength="200" style="width: 100%;height: 70px;"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal">關閉</button>
+                <button type="button" class="btn btn-primary" (click)="goCheckTeamToOrder()"  [disabled]="team_order_list.length==0">訂購</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    </span>
